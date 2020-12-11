@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         //"i am soka haha"
         //"i am martin"
         //I am Max
+        //i am martin
     }
-
 
 }
