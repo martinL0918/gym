@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         myRef.child("id").setValue("12345678");
         myRef.child("user").child("username").setValue("Martin");
         newRef.child("user").setValue("apple");
-
+        //"i am soka haha"
     }
 
 
