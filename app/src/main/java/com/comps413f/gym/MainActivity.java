@@ -28,5 +28,4 @@ public class MainActivity extends AppCompatActivity {
         //"i am martin"
     }
 
-
 }
