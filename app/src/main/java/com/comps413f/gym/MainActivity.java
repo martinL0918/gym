@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         newRef.child("user").setValue("apple");
         //"i am soka haha"
         //"i am martin"
-        //Max
+        //I am Max
     }
 
 
