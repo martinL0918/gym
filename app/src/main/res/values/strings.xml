@@ -1,3 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">gym</string>
+    <string name="addPictureDesc">Please insert photo</string>
+    <string name="actionName">Action Name: </string>
+    <string name="actionDescription">Description: </string>
+    <string name="actionTimes">Times: </string>
+    <string name="actionOrgans">Train Organs: </string>
+    <string name="actionUsage">Usage: </string>
+    <string name="actionReference">References: </string>
+    <string name="confirm">Confirm </string>
+
 </resources>
