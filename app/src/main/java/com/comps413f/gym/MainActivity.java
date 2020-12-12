@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     protected void displayAlertDialog(){
             // Set up the alert builder
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("Choose some animals");
+            builder.setTitle("Choose Days");
             // Add a checkbox list
                     builder.setMultiChoiceItems(weekday, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                         @Override
