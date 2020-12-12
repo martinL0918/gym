@@ -1,241 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/addPictureDesc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/addPictureDesc"
-        app:layout_constraintBottom_toTopOf="@+id/uploadImage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/addPictureDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="21dp"
+            android:text="@string/addPictureDesc"
+            app:layout_constraintBottom_toTopOf="@+id/uploadImage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/uploadImage"
-        android:layout_width="240dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="36dp"
-        android:src="@drawable/uploadicon"
-        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addPictureDesc" />
+        <ImageView
+            android:id="@+id/uploadImage"
+            android:layout_width="240dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="21dp"
+            android:src="@drawable/uploadicon"
+            app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addPictureDesc" />
 
-    <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="146dp"
-        android:stretchColumns="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/uploadImage">
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="229dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="19dp"
+            android:shrinkColumns="1"
+            android:stretchColumns="1"
+            app:layout_constraintBottom_toTopOf="@+id/confirmButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="50dp">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="50dp">
 
-            <TextView
-                android:id="@+id/actionName"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/orange_circle_background"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/actionName"
-                android:textColor="#FFFFFF"
-                tools:layout_editor_absoluteX="42dp"
-                tools:layout_editor_absoluteY="366dp" />
+                <TextView
+                    android:id="@+id/actionName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/orange_circle_background"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/actionName"
+                    android:textColor="#FFFFFF"
+                    tools:layout_editor_absoluteX="42dp"
+                    tools:layout_editor_absoluteY="366dp" />
 
-            <EditText
-                android:id="@+id/inputName"
+                <EditText
+                    android:id="@+id/inputName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:hint="Sit up"
+                    android:inputType="textAutoCorrect"
+                    tools:layout_editor_absoluteX="100dp"
+                    tools:layout_editor_absoluteY="342dp">
+
+                    <requestFocus />
+                </EditText>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="50dp">
+
+                <TextView
+                    android:id="@+id/actionDescription"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/orange_circle_background"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/actionDescription"
+                    android:textColor="#FFFFFF"
+                    tools:layout_editor_absoluteX="42dp"
+                    tools:layout_editor_absoluteY="366dp" />
+
+                <EditText
+                    android:id="@+id/inputDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:hint="lies flat on the back, lifts the torso to a sitting position, and then lies flat again without changing the position of the legs"
+                    android:inputType="textAutoCorrect"
+                    tools:layout_editor_absoluteX="100dp"
+                    tools:layout_editor_absoluteY="342dp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="50dp">
+
+                <TextView
+                    android:id="@+id/actionTimes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/orange_circle_background"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/actionTimes"
+                    android:textColor="#FFFFFF"
+                    tools:layout_editor_absoluteX="42dp"
+                    tools:layout_editor_absoluteY="366dp" />
+
+                <EditText
+                    android:id="@+id/inputTimes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:hint="10 * 2"
+                    android:inputType="textAutoCorrect"
+                    tools:layout_editor_absoluteX="100dp"
+                    tools:layout_editor_absoluteY="342dp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="50dp">
+
+                <TextView
+                    android:id="@+id/actionOrgans"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/orange_circle_background"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/actionOrgans"
+                    android:textColor="#FFFFFF"
+                    tools:layout_editor_absoluteX="42dp"
+                    tools:layout_editor_absoluteY="366dp" />
+
+                <EditText
+                    android:id="@+id/inputOrgans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:hint="arm"
+                    android:inputType="textAutoCorrect"
+                    tools:layout_editor_absoluteX="100dp"
+                    tools:layout_editor_absoluteY="342dp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="50dp">
+
+                <TextView
+                    android:id="@+id/actionUsage"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/orange_circle_background"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/actionUsage"
+                    android:textColor="#FFFFFF"
+                    tools:layout_editor_absoluteX="42dp"
+                    tools:layout_editor_absoluteY="366dp" />
+
+                <EditText
+                    android:id="@+id/inputUsage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:hint="Increase core strength"
+                    android:inputType="textAutoCorrect"
+                    tools:layout_editor_absoluteX="100dp"
+                    tools:layout_editor_absoluteY="342dp" />
+
+            </TableRow>
+
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:hint="input here"
-                android:inputType="textAutoCorrect"
-                tools:layout_editor_absoluteX="100dp"
-                tools:layout_editor_absoluteY="342dp">
+                android:minHeight="50dp">
 
-                <requestFocus />
-            </EditText>
+                <TextView
+                    android:id="@+id/actionReference"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/orange_circle_background"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/actionReference"
+                    android:textColor="#FFFFFF"
+                    tools:layout_editor_absoluteX="42dp"
+                    tools:layout_editor_absoluteY="366dp" />
 
-        </TableRow>
+                <EditText
+                    android:id="@+id/inputReference"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:hint="https://www.youtube.com/abcdef"
+                    android:inputType="textAutoCorrect"
+                    tools:layout_editor_absoluteX="100dp"
+                    tools:layout_editor_absoluteY="342dp" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="50dp">
+            </TableRow>
 
-            <TextView
-                android:id="@+id/actionDescription"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/orange_circle_background"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/actionDescription"
-                android:textColor="#FFFFFF"
-                tools:layout_editor_absoluteX="42dp"
-                tools:layout_editor_absoluteY="366dp" />
-
-            <EditText
-                android:id="@+id/inputDescription"
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:hint="input here"
-                android:inputType="textAutoCorrect"
-                tools:layout_editor_absoluteX="100dp"
-                tools:layout_editor_absoluteY="342dp" />
+                android:minHeight="50dp">
 
-        </TableRow>
+                <TextView
+                    android:id="@+id/actionRepeat"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/orange_circle_background"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/actionRepeat"
+                    android:textColor="#FFFFFF"
+                    tools:layout_editor_absoluteX="42dp"
+                    tools:layout_editor_absoluteY="366dp" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="50dp">
+                <Button
+                    android:id="@+id/inputRepeat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="@string/chooseDay"
+                    tools:layout_editor_absoluteX="100dp"
+                    tools:layout_editor_absoluteY="342dp" />
 
-            <TextView
-                android:id="@+id/actionTimes"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/orange_circle_background"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/actionTimes"
-                android:textColor="#FFFFFF"
-                tools:layout_editor_absoluteX="42dp"
-                tools:layout_editor_absoluteY="366dp" />
-
-            <EditText
-                android:id="@+id/inputTimes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:hint="input here"
-                android:inputType="textAutoCorrect"
-                tools:layout_editor_absoluteX="100dp"
-                tools:layout_editor_absoluteY="342dp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="50dp">
-
-            <TextView
-                android:id="@+id/actionOrgans"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/orange_circle_background"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/actionOrgans"
-                android:textColor="#FFFFFF"
-                tools:layout_editor_absoluteX="42dp"
-                tools:layout_editor_absoluteY="366dp" />
-
-            <EditText
-                android:id="@+id/inputOrgans"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:hint="input here"
-                android:inputType="textAutoCorrect"
-                tools:layout_editor_absoluteX="100dp"
-                tools:layout_editor_absoluteY="342dp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="50dp">
-
-            <TextView
-                android:id="@+id/actionUsage"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/orange_circle_background"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/actionUsage"
-                android:textColor="#FFFFFF"
-                tools:layout_editor_absoluteX="42dp"
-                tools:layout_editor_absoluteY="366dp" />
-
-            <EditText
-                android:id="@+id/inputUsage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:hint="input here"
-                android:inputType="textAutoCorrect"
-                tools:layout_editor_absoluteX="100dp"
-                tools:layout_editor_absoluteY="342dp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="50dp">
-
-            <TextView
-                android:id="@+id/actionReference"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/orange_circle_background"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/actionReference"
-                android:textColor="#FFFFFF"
-                tools:layout_editor_absoluteX="42dp"
-                tools:layout_editor_absoluteY="366dp" />
-
-            <EditText
-                android:id="@+id/inputReference"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:hint="input here"
-                android:inputType="textAutoCorrect"
-                tools:layout_editor_absoluteX="100dp"
-                tools:layout_editor_absoluteY="342dp" />
-
-        </TableRow>
+            </TableRow>
 
 
-    </TableLayout>
+        </TableLayout>
 
-    <Button
-        android:id="@+id/confirmButton"
-        android:layout_width="89dp"
-        android:layout_height="31dp"
-        android:background="@drawable/orange_circle_background"
-        android:text="@string/confirm"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+        <Button
+            android:id="@+id/confirmButton"
+            android:layout_width="87dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/orange_circle_background"
+            android:text="@string/confirm"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

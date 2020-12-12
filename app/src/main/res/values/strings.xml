@@ -9,5 +9,7 @@
     <string name="actionUsage">Usage: </string>
     <string name="actionReference">References: </string>
     <string name="confirm">Confirm </string>
+    <string name="actionRepeat">Day </string>
+    <string name="chooseDay">Click Here to choose </string>
 
 </resources>
