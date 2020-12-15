@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">gym</string>
+    <string name="app_name">Gym app</string>
     <string name="addPictureDesc">Please insert photo</string>
     <string name="actionName">Action Name: </string>
     <string name="actionDescription">Description: </string>
@@ -11,5 +11,12 @@
     <string name="confirm">Confirm </string>
     <string name="actionRepeat">Day </string>
     <string name="chooseDay">Click Here to choose </string>
+    <string name="login">Login </string>
+    <string name="register">Register </string>
+    <string name="password_label">Password </string>
+    <string name="confirm_password_label">Confirm Password </string>
+    <string name="login_label">Email </string>
+    <string name="email_hint">abc@example.com </string>
+
 
 </resources>
