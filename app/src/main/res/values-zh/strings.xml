@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">gym</string>
+    <string name="addPictureDesc">請上傳圖片</string>
+    <string name="actionName">動作名稱: </string>
+    <string name="actionDescription">動作描述: </string>
+    <string name="actionTimes">次數: </string>
+    <string name="actionOrgans">訓練部位: </string>
+    <string name="actionUsage">效用: </string>
+    <string name="actionReference">參考資料: </string>
+    <string name="confirm">確認 </string>
+
+</resources>
