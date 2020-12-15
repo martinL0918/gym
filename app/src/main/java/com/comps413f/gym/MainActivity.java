@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.addaction);
+        setContentView(R.layout.actioncardview);
         /*FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
         DatabaseReference newRef = database.getReference("Peter");
@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
                 displayAlertDialog();
             }
         });
-
     }
     protected void displayAlertDialog(){
             // Set up the alert builder
