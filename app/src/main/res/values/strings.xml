@@ -17,6 +17,12 @@
     <string name="confirm_password_label">Confirm Password </string>
     <string name="login_label">Email </string>
     <string name="email_hint">abc@example.com </string>
+    <string name="empty_email">Empty email </string>
+    <string name="empty_password">Empty password </string>
+    <string name="not_matched_password">Password not matched </string>
+    <string name="ERROR_EMAIL_ALREADY_IN_USE">This email address is already in used</string>
+    <string name="ERROR_INVALID_EMAIL">This email address is badly formatted</string>
+    <string name="ERROR_WEAK_PASSWORD">Weak Password</string>
 
 
 </resources>

@@ -14,7 +14,14 @@
     <string name="login">登入 </string>
     <string name="register">註冊 </string>
     <string name="password_label">密碼 </string>
+    <string name="confirm_password_label">Confirm Password </string>
     <string name="login_label">電郵 </string>
     <string name="email_hint">abc@example.com </string>
+    <string name="empty_email">電郵欄位為空</string>
+    <string name="empty_password">密碼欄位為空</string>
+    <string name="not_matched_password">密碼不相同 </string>
+    <string name="ERROR_EMAIL_ALREADY_IN_USE">這個電郵已被註冊</string>
+    <string name="ERROR_INVALID_EMAIL">電郵格式不正確</string>
+    <string name="ERROR_WEAK_PASSWORD">密碼太弱</string>
 
 </resources>

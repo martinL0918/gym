@@ -3,6 +3,7 @@ package com.comps413f.gym;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
@@ -76,13 +78,26 @@ public class Login extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
-    private void Register(){
-        EditText email_editText = findViewById(R.id.email_editText);
-        EditText password_editText = findViewById(R.id.password_editText);
+    private void Register() {
+        final EditText email_editText = findViewById(R.id.email_editText);
+        final EditText password_editText = findViewById(R.id.password_editText);
+        EditText confirmpassword_editText = findViewById(R.id.confirmpassword_editText);
         String email = email_editText.getText().toString();
         String password = password_editText.getText().toString();
-        System.out.println(email);
-        System.out.println(password);
+        String confirmpassword = confirmpassword_editText.getText().toString();
+        if (TextUtils.isEmpty(email)){
+            email_editText.setError(getString(R.string.empty_email));
+            return;
+        }
+        if (TextUtils.isEmpty(password)){
+            password_editText.setError(getString(R.string.empty_password));
+            return;
+        }
+        if(!confirmpassword.equals(password) ){
+            confirmpassword_editText.setError(getString(R.string.not_matched_password));
+            return;
+        }
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -94,10 +109,23 @@ public class Login extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(Login.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, task.getException().getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                            String error_code = ((FirebaseAuthException)task.getException()).getErrorCode();
+                            switch (error_code){
+                                case "ERROR_EMAIL_ALREADY_IN_USE":
+                                    email_editText.setError(getString(R.string.ERROR_EMAIL_ALREADY_IN_USE));
+                                    break;
+                                case "ERROR_INVALID_EMAIL":
+                                    email_editText.setError(getString(R.string.ERROR_INVALID_EMAIL));
+                                    break;
+                                case "ERROR_WEAK_PASSWORD":
+                                    password_editText.setError(getString(R.string.ERROR_WEAK_PASSWORD));
+                            }
+
                         }
                     }
                 });
+
     }
 }
