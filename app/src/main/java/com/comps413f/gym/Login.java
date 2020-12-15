@@ -67,6 +67,12 @@ public class Login extends AppCompatActivity {
                 regigser_tab.setTextColor(ContextCompat.getColor(Login.this, R.color.colorPrimary));
                 confirmpassword.setVisibility(View.GONE);
                 confirmpassword_editText.setVisibility(View.GONE);
+                login_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        System.out.println("Not implemented");
+                    }
+                });
             }
         });
 
