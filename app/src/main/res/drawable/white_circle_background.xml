@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- button layer: shift to left for 2 dp & top for 1 dp -->
+<item android:left="2dp"
+    android:top="1dp">
+    <shape  android:shape="rectangle">
+        <corners android:radius="20dp"/>
+        <solid android:color="#b4b5b6"/>
+        <size android:width="50dp" android:height="20dp"/>
+    </shape>
+</item>
+
+
+<!-- top layer : shift to bottom for 1 dp & right for 1 dp -->
+<item android:bottom="1dp"
+    android:right="1dp">
+    <shape  android:shape="rectangle">
+        <corners android:radius="20dp"/>
+        <solid android:color="#fff"/>
+        <size android:width="50dp" android:height="10dp"/>
+    </shape>
+</item>
+
+    <padding android:left="50dp" android:top="10dp"
+        android:right="50dp" android:bottom="10dp" />
+
+</layer-list>
