@@ -12,124 +12,106 @@
 
 
         <TextView
-                    android:id="@+id/background"
-                    android:layout_width="0dp"
-                    android:layout_height="121dp"
-                    android:background="@drawable/orange_gradient"
-                    android:fontFamily="@font/baloo_tamma"
-                    android:gravity="center"
-                    android:text="@string/routinetitle"
-                    android:textColor="#FFFFFF"
-                    android:textSize="45sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/background"
+            android:layout_width="411dp"
+            android:layout_height="121dp"
+            android:background="@drawable/orange_gradient"
+            android:fontFamily="@font/baloo_tamma"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textColor="#FFFFFF"
+            android:textSize="45sp" />
 
         <Button
             android:id="@+id/day1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="150dp"
-            android:layout_marginLeft="150dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginEnd="150dp"
-            android:layout_marginRight="150dp"
             android:background="@drawable/orange_circle_background_routine"
             android:text="@string/day1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.505"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/background" />
+            tools:layout_editor_absoluteX="107dp"
+            tools:layout_editor_absoluteY="165dp" />
 
         <Button
             android:id="@+id/day2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/orange_circle_background_routine"
             android:text="@string/day2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/day1" />
+            app:layout_constraintTop_toBottomOf="@+id/day1"
+            tools:layout_editor_absoluteX="107dp" />
 
         <Button
             android:id="@+id/day3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/orange_circle_background_routine"
             android:text="@string/day3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/day2" />
+            app:layout_constraintTop_toBottomOf="@+id/day2"
+            tools:layout_editor_absoluteX="107dp" />
 
         <Button
             android:id="@+id/day4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/orange_circle_background_routine"
             android:text="@string/day4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/day3" />
+            app:layout_constraintTop_toBottomOf="@+id/day3"
+            tools:layout_editor_absoluteX="107dp" />
 
         <Button
             android:id="@+id/day5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/orange_circle_background_routine"
             android:text="@string/day5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/day4" />
+            app:layout_constraintTop_toBottomOf="@+id/day4"
+            tools:layout_editor_absoluteX="106dp" />
 
         <Button
             android:id="@+id/day6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/orange_circle_background_routine"
             android:text="@string/day6"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/day5" />
+            app:layout_constraintTop_toBottomOf="@+id/day5"
+            tools:layout_editor_absoluteX="106dp" />
 
         <Button
             android:id="@+id/day7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/orange_circle_background_routine"
             android:text="@string/day7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/day6" />
+            app:layout_constraintTop_toBottomOf="@+id/day6"
+            tools:layout_editor_absoluteX="107dp" />
 
         <Button
             android:id="@+id/setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/grey_circle_background"
             android:text="@string/routineSetting"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/day7" />
+            app:layout_constraintTop_toBottomOf="@+id/day7"
+            tools:layout_editor_absoluteX="97dp" />
 
         <Button
             android:id="@+id/addDayButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="96dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginLeft="140dp"
+            android:layout_marginTop="90dp"
             android:background="@drawable/round_button_backround"
             android:text="@string/routineAddButton"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -137,11 +119,12 @@
 
             android:layout_width="200dp"
             android:layout_height="35dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="108dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="100dp"
             android:background="@drawable/white_circle_background"
             android:gravity="center"
+            android:textColor="@color/colorRed"
             android:text="@string/routineDescription"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintStart_toStartOf="parent"
