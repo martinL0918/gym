@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">gym</string>
+    <string name="app_name">Some app</string>
     <string name="addPictureDesc">Please insert photo</string>
     <string name="actionName">Action Name: </string>
     <string name="actionDescription">Description: </string>
@@ -11,5 +11,29 @@
     <string name="confirm">Confirm </string>
     <string name="actionRepeat">Day </string>
     <string name="chooseDay">Click Here to choose </string>
+    <string name="login">Login </string>
+    <string name="register">Register </string>
+    <string name="password_label">Password </string>
+    <string name="confirm_password_label">Confirm Password </string>
+    <string name="login_label">Email </string>
+    <string name="email_hint">abc@example.com </string>
+    <string name="empty_email">Empty email </string>
+    <string name="empty_password">Empty password </string>
+    <string name="not_matched_password">Password not matched </string>
+    <string name="ERROR_EMAIL_ALREADY_IN_USE">This email address is already in used</string>
+    <string name="ERROR_INVALID_EMAIL">This email address is badly formatted</string>
+    <string name="ERROR_WEAK_PASSWORD">Weak Password</string>
 
+
+    <string name="routinetitle">GymLun</string>
+    <string name= "day1">Day 1</string>
+    <string name= "day2">Day 2</string>
+    <string name= "day3">Day 3</string>
+    <string name= "day4">Day 4</string>
+    <string name= "day5">Day 5</string>
+    <string name= "day6">Day 6</string>
+    <string name= "day7">Day 7</string>
+    <string name= "routineSetting">Setting</string>
+    <string name= "routineAddButton">+</string>
+    <string name ="routineDescription"> Your daily routine : </string>
 </resources>
