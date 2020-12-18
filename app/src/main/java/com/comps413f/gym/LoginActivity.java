@@ -1,6 +1,6 @@
 package com.comps413f.gym;
 
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -21,8 +20,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     Button regigser_tab;
     Button login_tab;
     EditText email_editText;
@@ -45,11 +46,13 @@ public class Login extends AppCompatActivity {
         regigser_tab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login_tab.setTextColor(ContextCompat.getColor(Login.this, R.color.colorPrimary));
-                regigser_tab.setTextColor(Color.BLACK);
+                login_tab.setTextColor(ContextCompat.getColor(LoginActivity.this, R.color.colorPrimary));
+                regigser_tab.setBackground(ContextCompat.getDrawable(LoginActivity.this, R.drawable.button_fill));
+                regigser_tab.setTextColor(Color.WHITE);
                 confirmpassword.setVisibility(View.VISIBLE);
                 confirmpassword_editText.setVisibility(View.VISIBLE);
                 login_button.setText(getString(R.string.register));
+                login_tab.setBackground(ContextCompat.getDrawable(LoginActivity.this, R.drawable.button_outline));
                 login_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -62,17 +65,25 @@ public class Login extends AppCompatActivity {
         login_tab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login_tab.setTextColor(Color.BLACK);
+                login_tab.setTextColor(Color.WHITE);
                 login_button.setText(getString(R.string.login));
-                regigser_tab.setTextColor(ContextCompat.getColor(Login.this, R.color.colorPrimary));
+                login_tab.setBackground(ContextCompat.getDrawable(LoginActivity.this, R.drawable.button_fill));
+                regigser_tab.setBackground(ContextCompat.getDrawable(LoginActivity.this, R.drawable.button_outline));
+                regigser_tab.setTextColor(ContextCompat.getColor(LoginActivity.this, R.color.colorPrimary));
                 confirmpassword.setVisibility(View.GONE);
                 confirmpassword_editText.setVisibility(View.GONE);
                 login_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        System.out.println("Not implemented");
+                        Login();
                     }
                 });
+            }
+        });
+        login_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Login();
             }
         });
 
@@ -110,12 +121,23 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(Login.this, "createUserWithEmail.",
+                            Toast.makeText(LoginActivity.this, "createUserWithEmail.",
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference myRef = database.getReference(user.getUid());
+                            myRef.child("Day 1").setValue("");
+                            myRef.child("Day 2").setValue("");
+                            myRef.child("Day 3").setValue("");
+                            myRef.child("Day 4").setValue("");
+                            myRef.child("Day 5").setValue("");
+                            myRef.child("Day 6").setValue("");
+                            myRef.child("Day 7").setValue("");
+
+
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(Login.this, task.getException().getMessage(),
+                            Toast.makeText(LoginActivity.this, task.getException().getMessage(),
                                     Toast.LENGTH_LONG).show();
                             String error_code = ((FirebaseAuthException)task.getException()).getErrorCode();
                             switch (error_code){
@@ -133,5 +155,42 @@ public class Login extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    private void Login() {
+        final EditText email_editText = findViewById(R.id.email_editText);
+        final EditText password_editText = findViewById(R.id.password_editText);
+        String email = email_editText.getText().toString();
+        String password = password_editText.getText().toString();
+        if (TextUtils.isEmpty(email)){
+            email_editText.setError(getString(R.string.empty_email));
+            return;
+        }
+        if (TextUtils.isEmpty(password)){
+            password_editText.setError(getString(R.string.empty_password));
+            return;
+        }
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Intent intent = new Intent();
+                            intent.setClass(LoginActivity.this,Routine.class);
+                            startActivity(intent);
+                            finish();
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            email_editText.setError("Email / Password is wrong. Please try again");
+                        }
+
+
+        }
+        });
     }
 }

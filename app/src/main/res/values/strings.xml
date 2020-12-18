@@ -23,9 +23,6 @@
     <string name="ERROR_EMAIL_ALREADY_IN_USE">This email address is already in used</string>
     <string name="ERROR_INVALID_EMAIL">This email address is badly formatted</string>
     <string name="ERROR_WEAK_PASSWORD">Weak Password</string>
-
-
-    <string name="routinetitle">GymLun</string>
     <string name= "day1">Day 1</string>
     <string name= "day2">Day 2</string>
     <string name= "day3">Day 3</string>

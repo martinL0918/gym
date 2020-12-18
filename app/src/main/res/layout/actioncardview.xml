@@ -6,7 +6,8 @@
         android:layout_height="500dp"
         android:layout_width="match_parent"
         android:id="@+id/card_view"
-        card_view:cardCornerRadius="4dp">
+        card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,58 +17,50 @@
 
         <ImageButton
             android:id="@+id/deleteButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_width="36dp"
+            android:layout_height="37dp"
             android:layout_marginTop="16dp"
-            card_view:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/edit"
+            card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/editButton"
-            android:layout_width="0dp"
+            android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="384dp"
-            android:layout_marginLeft="384dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="28dp"
-            android:layout_marginRight="28dp"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="1.0"
-            card_view:layout_constraintStart_toEndOf="@+id/actionPicture"
+            android:layout_marginEnd="320dp"
+            android:layout_marginRight="320dp"
+            android:background="@drawable/delete"
+            card_view:layout_constraintEnd_toStartOf="@+id/deleteButton"
+            card_view:layout_constraintHorizontal_bias="0.0"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent" />
-
 
         <ImageButton
             android:id="@+id/finishButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="352dp"
-            android:layout_marginLeft="352dp"
-            android:layout_marginTop="452dp"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/actionPicture"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:src="@drawable/soymilk1" />
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/notchecked"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent" />
 
         <TableLayout
             android:id="@+id/tableLayout2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="66dp"
-            android:layout_marginLeft="66dp"
-            android:layout_marginTop="33dp"
-            android:layout_marginEnd="66dp"
-            android:layout_marginRight="66dp"
-            card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="@id/actionPicture"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="22dp"
+            android:stretchColumns="1"
+            card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/actionPicture">
 
             <TableRow
@@ -78,7 +71,8 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="right"
+                    android:textColor="#333333"
                     android:padding="5dp"
                     android:text="@string/actionName"
                     android:textStyle="bold" />
@@ -87,8 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:padding="5dp"
-                    android:text="動作Name1" />
+                    android:padding="5dp"/>
             </TableRow>
 
             <TableRow
@@ -99,10 +92,16 @@
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="right"
+                    android:textColor="#333333"
                     android:padding="5dp"
                     android:text="@string/actionDescription"
                     android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="5dp"/>
 
             </TableRow>
 
@@ -114,10 +113,16 @@
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="right"
+                    android:textColor="#333333"
                     android:padding="5dp"
                     android:text="@string/actionTimes"
                     android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="5dp"/>
             </TableRow>
 
             <TableRow
@@ -128,10 +133,16 @@
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="right"
                     android:padding="5dp"
+                    android:textColor="#333333"
                     android:text="@string/actionOrgans"
                     android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="5dp"/>
             </TableRow>
 
             <TableRow
@@ -142,10 +153,16 @@
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="right"
                     android:padding="5dp"
+                    android:textColor="#333333"
                     android:text="@string/actionUsage"
                     android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="5dp"/>
             </TableRow>
 
             <TableRow
@@ -156,12 +173,29 @@
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="right"
+                    android:textColor="#333333"
                     android:padding="5dp"
                     android:text="@string/actionReference"
                     android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="5dp"/>
             </TableRow>
         </TableLayout>
+
+        <ImageView
+            android:id="@+id/actionPicture"
+            android:layout_width="371dp"
+            android:layout_height="187dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="14dp"
+            android:src="@drawable/actionicon"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/deleteButton" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
