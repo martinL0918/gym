@@ -1,9 +1,13 @@
 package com.comps413f.gym;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -93,6 +98,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            // Name, email address, and profile photo Url
+            System.out.println("You are signed in as "+ currentUser.getEmail());
+        }
+        else{
+           Toast.makeText(LoginActivity.this,"You have not signed in",Toast.LENGTH_LONG).show();
+        }
     }
 
     private void Register() {
@@ -126,13 +138,8 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference myRef = database.getReference(user.getUid());
-                            myRef.child("Day 1").setValue("");
-                            myRef.child("Day 2").setValue("");
-                            myRef.child("Day 3").setValue("");
-                            myRef.child("Day 4").setValue("");
-                            myRef.child("Day 5").setValue("");
-                            myRef.child("Day 6").setValue("");
-                            myRef.child("Day 7").setValue("");
+                            myRef.child("nickname").setValue("");
+
 
 
                         } else {
@@ -193,4 +200,25 @@ public class LoginActivity extends AppCompatActivity {
         }
         });
     }
+    /*protected void displayAlertDialog(){
+        // Set up the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setTitle("Choose Days");
+        // Add a checkbox list
+       builder.setMessage();
+        // Add OK and Cancel buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // The user clicked OK
+                int i =0;
+                String result = "";
+                result = result.substring(0,result.length() - 1);
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        // Create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }*/
 }
