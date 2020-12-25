@@ -33,4 +33,9 @@
     <string name= "routineSetting">Setting</string>
     <string name= "routineAddButton">+</string>
     <string name ="routineDescription"> Your daily routine : </string>
+    <string name ="cannotBeEmpty">Cannot be empty</string>
+    <string name ="aboutLabel">About</string>
+    <string name ="aboutContent">This app is to ......</string>
+    <string name ="developerLabel">Developer</string>
+    <string name ="developerContent">So Ka Leung (1204542)\n\nLeung Tsz Kin(12049855)\n\nCheung Man Fai(XXXXXXX)</string>
 </resources>
