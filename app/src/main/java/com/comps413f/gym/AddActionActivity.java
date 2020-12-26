@@ -89,7 +89,7 @@ public class AddActionActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
+        if (currentUser == null) {
             ReturnToLogin();
         }
         else{

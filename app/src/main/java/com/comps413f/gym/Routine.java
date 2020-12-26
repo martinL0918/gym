@@ -159,7 +159,7 @@ public class Routine extends AppCompatActivity {
                     Intent intent = new Intent(Routine.this,
                             Recyclerbase.class);
                     intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "day7");
+                            "day7 ");
                     startActivity(intent);
                 }
             }
@@ -172,13 +172,7 @@ public class Routine extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doRotation(add)) {
-                    Intent intent = new Intent(Routine.this,
-                            AddActionActivity.class);
-                    intent.putExtra(AddActionActivity.EXTRA_DATA,
-                            "addDay");
-                    startActivity(intent);
-                }
+                doRotation(add);
             }
         });
 
@@ -253,11 +247,31 @@ public class Routine extends AppCompatActivity {
         float x,y ;
         x = (float)(button.getWidth()*0.5);
         y = (float)(button.getHeight()*0.5);
-        RotateAnimation animation = new RotateAnimation(0, 70, x, y); // TranslateAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta)
+        RotateAnimation animation = new RotateAnimation(0, 75, x, y); // TranslateAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta)
         animation.setRepeatCount(1);
         animation.setRepeatMode(Animation.REVERSE); // going backward
-        animation.setDuration(1000);
+        animation.setDuration(500);
         button.startAnimation(animation);
-        return true;
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Intent intent = new Intent(Routine.this,
+                        AddActionActivity.class);
+                intent.putExtra(AddActionActivity.EXTRA_DATA,
+                        "addDay");
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        return  true;
     }
 }

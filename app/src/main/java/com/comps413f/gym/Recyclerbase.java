@@ -75,7 +75,7 @@ public class Recyclerbase extends AppCompatActivity {
                     /*To get data with specified address
                     Action temp001 = dataSnapshot.child("-MPRsPmAx_V0KdZ2N8oz").getValue(Action.class);
                     System.out.println(temp001.getActionName());*/
-                    if (dataSnapshot.child(datas.getKey()).child("days").getValue().toString().contains(passDay)){
+                    if (dataSnapshot.child(datas.getKey()).child("days").getValue().toString().contains(EXTRA_DAY)){
                         Action temp = datas.getValue(Action.class);
                         actionList.add(temp);
                         adapter.notifyDataSetChanged();
