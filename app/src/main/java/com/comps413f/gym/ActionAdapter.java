@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -22,6 +23,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 import java.util.List;
 
@@ -29,6 +33,7 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
     private Context context;
     private List<Action> actionList;
     private FirebaseAuth mAuth;
+    private  FirebaseDatabase database;
     ActionAdapter(Context context, List<Action> actionList){
         this.context = context;
         this.actionList = actionList;
@@ -37,6 +42,7 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
     public ActionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.actioncardview, parent, false);
         mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
         return new ViewHolder(view);
     }
     @Override
@@ -81,6 +87,8 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
                 /* TODO: Start a New Intent with Extra attribute (zActionID)
 
                  */
+
+
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +101,8 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
                /* TODO: Delete data in database
 
                */
+               String aKey = action.getzActionID();
+               database.getReference(aKey).removeValue();
 
             }
         });
