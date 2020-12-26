@@ -49,6 +49,10 @@ public class AddActionActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private String uniqueid = "";
     private String haveImage = "false";
+
+
+    static final String EXTRA_DATA = "addRoutine"; // Extra key
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +82,8 @@ public class AddActionActivity extends AppCompatActivity {
             }
         });
 
+        // get the extra value
+        String addData = getIntent().getStringExtra(EXTRA_DATA);
     }
     @Override
     public void onStart() {

@@ -24,6 +24,7 @@ import java.util.List;
 
 public class Recyclerbase extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    static final String EXTRA_DAY = "routineDay"; // extra key
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +34,13 @@ public class Recyclerbase extends AppCompatActivity {
         //For testing
         //actionList.add(new Action("Sit up","description","organs","times","usage","references","days"));
         //actionList.add(new Action("Push up","description","organs","times","usage","references","days"));
+
+        //-----------
+        // get the extra value
+        String day = getIntent().getStringExtra(EXTRA_DAY);
+
+        System.out.println("extra day: "+day);
+
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(Recyclerbase.this));
