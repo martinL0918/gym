@@ -40,6 +40,7 @@
     <string name ="developerContent">So Ka Leung (1204542)\n\nLeung Tsz Kin(12049855)\n\nCheung Man Fai(XXXXXXX)</string>
     <string name ="pref_color">Change color Setting</string>
     <string name ="pref_color_default">Orange</string>
+    <string name ="not_data_in_database">You have not add any activity in this page</string>
     <string-array name="colorTheme">
         <item>Orange</item>
         <item>Green</item>

@@ -27,7 +27,7 @@ public class Routine extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String theme = prefs.getString(getString(R.string.pref_color),getString(R.string.pref_color_default));
         System.out.println(theme);
 
@@ -102,4 +102,5 @@ public class Routine extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 }

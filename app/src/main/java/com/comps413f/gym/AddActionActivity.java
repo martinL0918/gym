@@ -83,6 +83,12 @@ public class AddActionActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            ReturnToLogin();
+        }
+        else{
+            Toast.makeText(AddActionActivity.this,"You have not signed in",Toast.LENGTH_LONG).show();
+        }
 
     }
     @Override
@@ -259,6 +265,12 @@ public class AddActionActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+    public void ReturnToLogin(){
+        Intent intent = new Intent();
+        intent.setClass(AddActionActivity.this,LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }

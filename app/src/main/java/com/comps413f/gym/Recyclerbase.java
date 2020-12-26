@@ -1,11 +1,15 @@
 package com.comps413f.gym;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,9 +28,26 @@ import java.util.List;
 
 public class Recyclerbase extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    private SharedPreferences prefs;
+    private final static String passDay = "Day 2";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = prefs.getString(getString(R.string.pref_color),getString(R.string.pref_color_default));
+        System.out.println(theme);
+
+        if (theme.equals("Green")){
+            setTheme(R.style.AppThemeGreen);
+        }
+        else if (theme.equals("Purple")){
+            setTheme(R.style.AppThemePurple);
+        }
+        else{
+            System.out.println("Orange");
+            setTheme(R.style.AppTheme);
+        }
+
         setContentView(R.layout.recyclerbase);
         mAuth = FirebaseAuth.getInstance();
         final List<Action> actionList = new ArrayList<>();
@@ -40,6 +61,7 @@ public class Recyclerbase extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         //adapter.notifyDataSetChanged();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
         System.out.println(mAuth.getCurrentUser().getUid());
         DatabaseReference ref = database.getReference(mAuth.getCurrentUser().getUid());
 
@@ -51,19 +73,36 @@ public class Recyclerbase extends AppCompatActivity {
                     /*To get data with specified address
                     Action temp001 = dataSnapshot.child("-MPRsPmAx_V0KdZ2N8oz").getValue(Action.class);
                     System.out.println(temp001.getActionName());*/
-                    Action temp = datas.getValue(Action.class);
-                    actionList.add(temp);
-                    adapter.notifyDataSetChanged();
+                    if (dataSnapshot.child(datas.getKey()).child("days").getValue().toString().contains(passDay)){
+                        Action temp = datas.getValue(Action.class);
+                        actionList.add(temp);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+                if (actionList.size() == 0){
+                    createDialog();
+                }
+                if (!dataSnapshot.hasChildren()){
+                    createDialog();
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
+                System.out.println("Read data failed: " + databaseError.getCode());
             }
         });
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mAuth.getCurrentUser() == null){
+            ReturnToLogin();
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -91,24 +130,31 @@ public class Recyclerbase extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            System.out.println("User Logined");
-        }
-        else{
-            ReturnToLogin();
-        }
-    }
+
 
     public void ReturnToLogin(){
         Intent intent = new Intent();
         intent.setClass(Recyclerbase.this,LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+    public void createDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(Recyclerbase.this);
+        builder.setTitle("Empty");
+        // Add a checkbox list
+        builder.setMessage(getString(R.string.not_data_in_database));
+        // Add OK and Cancel buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Recyclerbase.this,Routine.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        // Create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 
