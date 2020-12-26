@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.item_setting:
-                System.out.println("Buton pressed");
+                System.out.println("Button pressed");
                 return true;
             case R.id.item_about:
                 ReturnToAbout();
