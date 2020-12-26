@@ -41,7 +41,6 @@ public class EditActionActivity extends AppCompatActivity {
     private Button inputRepeat;
     private Button confirmButton;
     private SharedPreferences prefs;
-    private ImageButton uploadImage;
     protected String[] weekday = {"Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"};
     protected  boolean[] checkedItems = {false, false, false, false, false, false, false};
     private FirebaseAuth mAuth;
@@ -71,7 +70,7 @@ public class EditActionActivity extends AppCompatActivity {
             System.out.println("Orange");
             setTheme(R.style.AppTheme);
         }
-        setContentView(R.layout.addaction);
+        setContentView(R.layout.editaction);
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         inputRepeat = findViewById(R.id.inputRepeat);
@@ -85,8 +84,7 @@ public class EditActionActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadDatabase(); //include upload Image to Storage inside
-
+                updateDatabase(); //include upload Image to Storage inside
             }
         });
 
@@ -171,7 +169,7 @@ public class EditActionActivity extends AppCompatActivity {
                     dialog.show();
         }
 
-        private void uploadDatabase() {
+        private void updateDatabase() {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             EditText inputName = findViewById(R.id.inputName);
             EditText inputDescription = findViewById(R.id.inputDescription);
