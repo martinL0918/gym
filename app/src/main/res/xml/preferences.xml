@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:title="Color Theme">
+
+        <ListPreference
+            android:key="@string/pref_color"
+            android:title="Select Color theme"
+            android:summary="Change the color theme of this application"
+            android:entries="@array/colorTheme"
+            android:entryValues="@array/colorTheme">
+        </ListPreference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
