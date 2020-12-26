@@ -33,5 +33,10 @@
     <string name= "routineSetting">設定</string>
     <string name= "routineAddButton">+</string>
     <string name ="routineDescription"> 你的日常訓練 : </string>
+    <string name ="cannotBeEmpty">欄位為空</string>
+    <string name ="aboutLabel">關於</string>
+    <string name ="aboutContent">This app is to ......</string>
+    <string name ="developerLabel">開發者</string>
+    <string name ="developerContent">So Ka Leung (1204542)\n\nLeung Tsz Kin(12049855)\n\nCheung Man Fai(XXXXXXX)</string>
 
 </resources>

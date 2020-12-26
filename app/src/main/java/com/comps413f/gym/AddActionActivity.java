@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,10 +14,12 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,6 +34,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.UUID;
 
 
 public class AddActionActivity extends AppCompatActivity {
@@ -43,6 +47,8 @@ public class AddActionActivity extends AppCompatActivity {
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 22;
     private StorageReference mStorageRef;
+    private String uniqueid = "";
+    private String haveImage = "false";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +66,8 @@ public class AddActionActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadDatabase();
+                uploadDatabase(); //include upload Image to Storage inside
+
             }
         });
         uploadImage = findViewById(R.id.uploadImage);
@@ -77,6 +84,35 @@ public class AddActionActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        MenuItem item_logout = menu.findItem(R.id.item_logout);
+        MenuItem item_about = menu.findItem(R.id.item_about);
+        item_logout.setVisible(false);
+        item_about.setVisible(false);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.item_setting:
+                System.out.println("Buton pressed");
+                return true;
+            case R.id.item_about:
+                ReturnToAbout();
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    public void ReturnToAbout(){
+        Intent intent = new Intent();
+        intent.setClass(AddActionActivity.this,AboutActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     protected void displayAlertDialog(){
@@ -158,6 +194,10 @@ public class AddActionActivity extends AppCompatActivity {
             toUpload.put("organs",inputOrgans.getText().toString());
             toUpload.put("usage",inputUsage.getText().toString());
             toUpload.put("references",inputReference.getText().toString());
+            DatabaseReference  newRef= myRef.push();
+            uniqueid = newRef.getKey();
+            toUpload.put("zActionID",uniqueid);
+            toUpload.put("haveImage",haveImage);
 
             for (int i = 0 ; i< checkedItems.length; i++) {
                 if (checkedItems[i] == true){
@@ -165,64 +205,57 @@ public class AddActionActivity extends AppCompatActivity {
                 }
             }
             toUpload.put("days",repeat.substring(0,repeat.length()-1));
-            DatabaseReference newRef = myRef.push();
             newRef.setValue(toUpload);
+            uploadImageToDatabase();
         }
-        private void uploadImage(){
-            Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
-            StorageReference riversRef = mStorageRef.child("images/rivers.jpg");
-
-            riversRef.putFile(file)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // Get a URL to the uploaded content
-                            //Uri downloadUrl = taskSnapshot.getDownloadURL();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle unsuccessful uploads
-                            // ...
-                        }
-                    });
+        private void uploadImageToDatabase(){
+           if (filePath !=null) {
+               // Progress Bar
+               final ProgressDialog progressDialog
+                       = new ProgressDialog(this);
+               progressDialog.setTitle("Uploading Image...");
+               progressDialog.show();
+               //Firebase storage
+               StorageReference uploadRef = mStorageRef.child(mAuth.getCurrentUser().getUid()+"/images/" + uniqueid);
+               uploadRef.putFile(filePath)
+                       .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                           @Override
+                           public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) { ;
+                               progressDialog.dismiss();
+                               Toast.makeText(AddActionActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                           }
+                       })
+                       .addOnFailureListener(new OnFailureListener() {
+                           @Override
+                           public void onFailure(@NonNull Exception exception) {
+                               Toast.makeText(AddActionActivity.this, "Failed Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                           }
+                       });
+           }
         }
     private void SelectImage()
     {
 
-        // Defining Implicit Intent to mobile gallery
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(
-                Intent.createChooser(
-                        intent,
-                        "Select Image from here..."),
-                PICK_IMAGE_REQUEST);
+                Intent.createChooser(intent, "Select Image from here..."), PICK_IMAGE_REQUEST);
     }
-    // Override onActivityResult method
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            // Get the Uri of data
             filePath = data.getData();
             try {
 
-                // Setting image on image view using Bitmap
-                Bitmap bitmap = MediaStore
-                        .Images
-                        .Media
-                        .getBitmap(
-                                getContentResolver(),
-                                filePath);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 uploadImage.setImageBitmap(bitmap);
                 uploadImage.setBackground(null);
+                haveImage = "true";
             }
             catch (IOException e) {
-                // Log the exception
                 e.printStackTrace();
             }
         }

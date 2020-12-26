@@ -106,6 +106,33 @@ public class LoginActivity extends AppCompatActivity {
            Toast.makeText(LoginActivity.this,"You have not signed in",Toast.LENGTH_LONG).show();
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        MenuItem item_logout = menu.findItem(R.id.item_logout);
+        item_logout.setVisible(false);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.item_setting:
+                System.out.println("Buton pressed");
+                return true;
+            case R.id.item_about:
+                ReturnToAbout();
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    public void ReturnToAbout(){
+        Intent intent = new Intent();
+        intent.setClass(LoginActivity.this,AboutActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     private void Register() {
         final EditText email_editText = findViewById(R.id.email_editText);
@@ -200,25 +227,5 @@ public class LoginActivity extends AppCompatActivity {
         }
         });
     }
-    /*protected void displayAlertDialog(){
-        // Set up the alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-        builder.setTitle("Choose Days");
-        // Add a checkbox list
-       builder.setMessage();
-        // Add OK and Cancel buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // The user clicked OK
-                int i =0;
-                String result = "";
-                result = result.substring(0,result.length() - 1);
-            }
-        });
-        builder.setNegativeButton("Cancel", null);
-        // Create and show the alert dialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }*/
+
 }

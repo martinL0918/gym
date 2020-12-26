@@ -1,33 +1,46 @@
 package com.comps413f.gym;
 
 public class Action {
-    private String name;
+    private String actionName;
+    private String days;
     private String description;
+    private String haveImage;
     private String organs;
+    private String references;
     private String times;
     private String usage;
-    private String references;
-    private String days;
+    private String zActionID;
 
-    private Action(){
-        super();
+
+    public Action() {
     }
-    public Action(String name, String description, String organs, String times, String usage, String references, String days) {
-        this.name = name;
+
+    public Action(String actionName, String days, String description,String haveImage, String organs, String references, String times, String usage, String zActionID) {
+        this.actionName = actionName;
+        this.days = days;
         this.description = description;
+        this.haveImage = haveImage;
         this.organs = organs;
+        this.references = references;
         this.times = times;
         this.usage = usage;
-        this.references = references;
+        this.zActionID = zActionID;
+    }
+
+    public String getActionName() {
+        return actionName;
+    }
+
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
+    }
+
+    public String getDays() {
+        return days;
+    }
+
+    public void setDays(String days) {
         this.days = days;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDescription() {
@@ -38,12 +51,28 @@ public class Action {
         this.description = description;
     }
 
+    public String getHaveImage() {
+        return haveImage;
+    }
+
+    public void setHaveImage(String haveImage) {
+        this.haveImage = haveImage;
+    }
+
     public String getOrgans() {
         return organs;
     }
 
     public void setOrgans(String organs) {
         this.organs = organs;
+    }
+
+    public String getReferences() {
+        return references;
+    }
+
+    public void setReferences(String references) {
+        this.references = references;
     }
 
     public String getTimes() {
@@ -62,19 +91,11 @@ public class Action {
         this.usage = usage;
     }
 
-    public String getReferences() {
-        return references;
+    public String getzActionID() {
+        return zActionID;
     }
 
-    public void setReferences(String references) {
-        this.references = references;
-    }
-
-    public String getDays() {
-        return days;
-    }
-
-    public void setDays(String days) {
-        this.days = days;
+    public void setzActionID(String zActionID) {
+        this.zActionID = zActionID;
     }
 }
