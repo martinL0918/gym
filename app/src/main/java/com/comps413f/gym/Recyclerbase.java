@@ -29,7 +29,7 @@ import java.util.List;
 public class Recyclerbase extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private SharedPreferences prefs;
-    private final static String passDay = "Day 2";
+    static final String EXTRA_DAY = "routineDay"; // extra key
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +47,6 @@ public class Recyclerbase extends AppCompatActivity {
             System.out.println("Orange");
             setTheme(R.style.AppTheme);
         }
-
         setContentView(R.layout.recyclerbase);
         mAuth = FirebaseAuth.getInstance();
         final List<Action> actionList = new ArrayList<>();
@@ -55,13 +54,16 @@ public class Recyclerbase extends AppCompatActivity {
         //actionList.add(new Action("Sit up","description","organs","times","usage","references","days"));
         //actionList.add(new Action("Push up","description","organs","times","usage","references","days"));
 
+        // get the extra value
+        String day = getIntent().getStringExtra(EXTRA_DAY);
+        System.out.println("extra day: "+day);
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(Recyclerbase.this));
         final ActionAdapter adapter = new ActionAdapter(this,actionList);
         recyclerView.setAdapter(adapter);
         //adapter.notifyDataSetChanged();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-
         System.out.println(mAuth.getCurrentUser().getUid());
         DatabaseReference ref = database.getReference(mAuth.getCurrentUser().getUid());
 
@@ -94,7 +96,6 @@ public class Recyclerbase extends AppCompatActivity {
         });
 
     }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -156,6 +157,5 @@ public class Recyclerbase extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
 
 }
