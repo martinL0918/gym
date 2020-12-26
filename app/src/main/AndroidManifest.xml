@@ -17,8 +17,6 @@
         </activity>
         <activity android:name=".LoginActivity">
         </activity>
-        <activity android:name=".ActionCardview">
-        </activity>
         <activity android:name=".AddActionActivity">
         </activity>
         <activity android:name=".Routine">

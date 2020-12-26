@@ -1,24 +1,34 @@
 package com.comps413f.gym;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
 public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder>{
     private Context context;
     private List<Action> actionList;
+    private FirebaseAuth mAuth;
     ActionAdapter(Context context, List<Action> actionList){
         this.context = context;
         this.actionList = actionList;
@@ -26,22 +36,49 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
     @Override
     public ActionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.actioncardview, parent, false);
+        mAuth = FirebaseAuth.getInstance();
         return new ViewHolder(view);
     }
     @Override
     public void onBindViewHolder(final ActionAdapter.ViewHolder holder, int position) {
+        StorageReference mStorageRef;
         final Action action = actionList.get(position);
-        holder.card_name.setText(action.getName());
+        holder.card_name.setText(action.getActionName());
         holder.card_description.setText(action.getDescription());
         holder.card_times.setText(action.getTimes());
         holder.card_organs.setText(action.getOrgans());
         holder.card_references.setText(action.getReferences());
         holder.card_usage.setText(action.getUsage());
+        System.out.println(mAuth.getCurrentUser().getUid()+"/images/"+action.getzActionID());
+        //如果有image先retrieve
+        if (action.getHaveImage().equals("true")) {
+                //Retreive Image from Firebase Storage
+                //The location of firebase storage according to our own defined structure for this mini project
+                StorageReference downloadRef = FirebaseStorage.getInstance().getReference(mAuth.getCurrentUser().getUid() + "/images/" + action.getzActionID());
+                final long ONE_MEGABYTE = 1024 * 1024;
+                downloadRef.getBytes(ONE_MEGABYTE)
+                        .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                Bitmap bm = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                DisplayMetrics dm = new DisplayMetrics();
+                                ((Recyclerbase) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+                                holder.actionPicture.setMinimumHeight(dm.heightPixels);
+                                holder.actionPicture.setMinimumWidth(dm.widthPixels);
+                                holder.actionPicture.setImageBitmap(bm);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        System.out.println("Error in loading image - Use original image instead");
+                    }
+                });
+        }
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Edit button of " + action.getName() + " pressed");
-                /* TODO: Start a New Intent with Extra attribute to load data
+                System.out.println("Edit button of " + action.getzActionID() + " pressed");
+                /* TODO: Start a New Intent with Extra attribute (zActionID)
 
                  */
             }
@@ -49,6 +86,7 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Just hide the whole view from RecyclerLayout
                holder.constraint_to_hide.setVisibility(View.GONE);
                holder.card_view.setVisibility(View.GONE);
                holder.linear_to_hide.setVisibility(View.GONE);
