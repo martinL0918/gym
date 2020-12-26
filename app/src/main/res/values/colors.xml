@@ -3,6 +3,8 @@
     <color name="colorPrimary">#ffa500</color>
     <color name="colorPrimaryDark">#E09100</color>
     <color name="colorAccent">#ffa500</color>
-    <color name="colorGreen">#209E2A</color>
-    <color name="colorPurple">#9806CB</color>
+    <color name="colorGreen">#45BD62</color>
+    <color name="colorGreenDark">#00560D</color>
+    <color name="colorPurple">#8F18B9</color>
+    <color name="colorPurpleDark">#590271</color>
 </resources>

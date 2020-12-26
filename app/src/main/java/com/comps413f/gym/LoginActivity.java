@@ -98,13 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            // Name, email address, and profile photo Url
-            System.out.println("You are signed in as "+ currentUser.getEmail());
-        }
-        else{
-           Toast.makeText(LoginActivity.this,"You have not signed in",Toast.LENGTH_LONG).show();
-        }
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -163,9 +157,6 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "createUserWithEmail.",
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            DatabaseReference myRef = database.getReference(user.getUid());
-                            myRef.child("nickname").setValue("");
 
 
 
@@ -227,5 +218,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         });
     }
+
 
 }
