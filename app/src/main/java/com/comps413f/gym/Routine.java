@@ -15,6 +15,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,7 +55,7 @@ public class Routine extends AppCompatActivity {
 
         }
         else{
-
+            background.setBackground(getResources().getDrawable(R.drawable.orange_gradient));
         }
         //////////////
 
@@ -194,6 +195,7 @@ public class Routine extends AppCompatActivity {
         }
         else{
             ReturnToLogin();
+            Toast.makeText(Routine.this,"You have not signed in",Toast.LENGTH_LONG).show();
         }
     }
     @Override

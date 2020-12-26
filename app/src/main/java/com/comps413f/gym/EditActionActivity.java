@@ -1,9 +1,5 @@
 package com.comps413f.gym;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +19,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,13 +33,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.UUID;
 
 
-public class AddActionActivity extends AppCompatActivity {
+public class EditActionActivity extends AppCompatActivity {
     private Button inputRepeat;
     private Button confirmButton;
     private SharedPreferences prefs;
@@ -91,13 +89,6 @@ public class AddActionActivity extends AppCompatActivity {
 
             }
         });
-        uploadImage = findViewById(R.id.uploadImage);
-        uploadImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SelectImage();
-            }
-        });
 
         // get the extra value
         String addData = getIntent().getStringExtra(EXTRA_DATA);
@@ -110,7 +101,7 @@ public class AddActionActivity extends AppCompatActivity {
         }
         else{
             ReturnToLogin();
-            Toast.makeText(AddActionActivity.this,"You have not signed in",Toast.LENGTH_LONG).show();
+            Toast.makeText(EditActionActivity.this,"You have not signed in",Toast.LENGTH_LONG).show();
         }
 
     }
@@ -128,7 +119,7 @@ public class AddActionActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.item_setting:
-                Intent intent = new Intent(AddActionActivity.this,PreferenceActivity.class);
+                Intent intent = new Intent(EditActionActivity.this,PreferenceActivity.class);
                 startActivity(intent);
                 break;
             case R.id.item_about:
@@ -140,14 +131,14 @@ public class AddActionActivity extends AppCompatActivity {
     }
     public void ReturnToAbout(){
         Intent intent = new Intent();
-        intent.setClass(AddActionActivity.this,AboutActivity.class);
+        intent.setClass(EditActionActivity.this,AboutActivity.class);
         startActivity(intent);
         finish();
     }
 
     protected void displayAlertDialog(){
             // Set up the alert builder
-            AlertDialog.Builder builder = new AlertDialog.Builder(AddActionActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(EditActionActivity.this);
             builder.setTitle("Choose Days");
             // Add a checkbox list
                     builder.setMultiChoiceItems(weekday, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
@@ -235,72 +226,18 @@ public class AddActionActivity extends AppCompatActivity {
                     repeat += weekday[i] + ",";
                 }
             }
-            if (repeat == null || repeat.equals("")){
+            if ( repeat.equals("")){
                 inputRepeat.setError(getString(R.string.cannotBeEmpty));
                 return;
             }
 
             toUpload.put("days",repeat.substring(0,repeat.length()-1));
             newRef.setValue(toUpload);
-            uploadImageToDatabase();
         }
-        private void uploadImageToDatabase(){
-           if (filePath !=null) {
-               // Progress Bar
-               final ProgressDialog progressDialog
-                       = new ProgressDialog(this);
-               progressDialog.setTitle("Uploading Image...");
-               progressDialog.show();
-               //Firebase storage
-               StorageReference uploadRef = mStorageRef.child(mAuth.getCurrentUser().getUid()+"/images/" + uniqueid);
-               uploadRef.putFile(filePath)
-                       .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                           @Override
-                           public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) { ;
-                               progressDialog.dismiss();
-                               Toast.makeText(AddActionActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                           }
-                       })
-                       .addOnFailureListener(new OnFailureListener() {
-                           @Override
-                           public void onFailure(@NonNull Exception exception) {
-                               Toast.makeText(AddActionActivity.this, "Failed Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                           }
-                       });
-           }
-           Intent intent = new Intent(AddActionActivity.this,Routine.class);
-            startActivity(intent);
-            finish();
-        }
-    private void SelectImage()
-    {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(
-                Intent.createChooser(intent, "Select Image from here..."), PICK_IMAGE_REQUEST);
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            filePath = data.getData();
-            try {
-
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                uploadImage.setImageBitmap(bitmap);
-                uploadImage.setBackground(null);
-                haveImage = "true";
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     public void ReturnToLogin(){
         Intent intent = new Intent();
-        intent.setClass(AddActionActivity.this,LoginActivity.class);
+        intent.setClass(EditActionActivity.this,LoginActivity.class);
         startActivity(intent);
         finish();
     }

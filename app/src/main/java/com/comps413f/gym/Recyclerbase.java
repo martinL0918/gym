@@ -55,8 +55,7 @@ public class Recyclerbase extends AppCompatActivity {
         //actionList.add(new Action("Push up","description","organs","times","usage","references","days"));
 
         // get the extra value
-        String day = getIntent().getStringExtra(EXTRA_DAY);
-        System.out.println("extra day: "+day);
+        final String day = getIntent().getStringExtra(EXTRA_DAY);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(Recyclerbase.this));
@@ -75,17 +74,17 @@ public class Recyclerbase extends AppCompatActivity {
                     /*To get data with specified address
                     Action temp001 = dataSnapshot.child("-MPRsPmAx_V0KdZ2N8oz").getValue(Action.class);
                     System.out.println(temp001.getActionName());*/
-                    if (dataSnapshot.child(datas.getKey()).child("days").getValue().toString().contains(EXTRA_DAY)){
+                    if (dataSnapshot.child(datas.getKey()).child("days").getValue().toString().contains(day)){
                         Action temp = datas.getValue(Action.class);
                         actionList.add(temp);
                         adapter.notifyDataSetChanged();
                     }
                 }
                 if (actionList.size() == 0){
-                    createDialog();
+                    createDialog(day);
                 }
                 if (!dataSnapshot.hasChildren()){
-                    createDialog();
+                    createDialog(day);
                 }
             }
 
@@ -139,11 +138,11 @@ public class Recyclerbase extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    public void createDialog(){
+    public void createDialog(String day){
         AlertDialog.Builder builder = new AlertDialog.Builder(Recyclerbase.this);
         builder.setTitle("Empty");
         // Add a checkbox list
-        builder.setMessage(getString(R.string.not_data_in_database));
+        builder.setMessage(getString(R.string.not_data_in_database)+" " + day);
         // Add OK and Cancel buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override

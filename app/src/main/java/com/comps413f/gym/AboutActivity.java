@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class AboutActivity extends AppCompatActivity {
-
+    private TextView background;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,16 @@ public class AboutActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.about);
+        background = findViewById(R.id.background);
+        if (theme.equals("Green")){
+            background.setBackground(getResources().getDrawable(R.drawable.green_gradient));
+        }
+        else if (theme.equals("Purple")){
+
+        }
+        else{
+
+        }
     }
     protected void onResume() {
         super.onResume();
