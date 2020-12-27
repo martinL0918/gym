@@ -56,6 +56,7 @@ public class Recyclerbase extends AppCompatActivity {
 
         // get the extra value
         final String day = getIntent().getStringExtra(EXTRA_DAY);
+        System.out.println("day : "+day);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(Recyclerbase.this));
