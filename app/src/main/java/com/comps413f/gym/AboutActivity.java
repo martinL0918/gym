@@ -44,10 +44,10 @@ public class AboutActivity extends AppCompatActivity {
             background.setBackground(getResources().getDrawable(R.drawable.green_gradient));
         }
         else if (theme.equals("Purple")){
-
+            background.setBackground(getResources().getDrawable(R.drawable.purple_gradient));
         }
         else{
-
+            background.setBackground(getResources().getDrawable(R.drawable.orange_gradient));
         }
     }
     protected void onResume() {

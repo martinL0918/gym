@@ -7,4 +7,6 @@
     <color name="colorGreenDark">#00560D</color>
     <color name="colorPurple">#8F18B9</color>
     <color name="colorPurpleDark">#590271</color>
+    <color name="colorGray">#797D7F</color>
+    <color name="colorWhite">#ffffff</color>
 </resources>

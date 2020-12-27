@@ -74,7 +74,7 @@ public class Recyclerbase extends AppCompatActivity {
                     /*To get data with specified address
                     Action temp001 = dataSnapshot.child("-MPRsPmAx_V0KdZ2N8oz").getValue(Action.class);
                     System.out.println(temp001.getActionName());*/
-                    if (dataSnapshot.child(datas.getKey()).child("days").getValue().toString().contains(day)){
+                    if (dataSnapshot.child(datas.getKey()).child("days").getValue().toString().contains("Day 1")){
                         Action temp = datas.getValue(Action.class);
                         actionList.add(temp);
                         adapter.notifyDataSetChanged();
@@ -115,7 +115,7 @@ public class Recyclerbase extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.item_setting:
-                System.out.println("Buton pressed");
+                System.out.println("Button pressed");
                 return true;
             case R.id.item_about:
                 ReturnToAbout();

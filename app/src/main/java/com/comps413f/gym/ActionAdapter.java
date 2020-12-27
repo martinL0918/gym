@@ -1,6 +1,7 @@
 package com.comps413f.gym;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
@@ -33,7 +34,7 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
     private Context context;
     private List<Action> actionList;
     private FirebaseAuth mAuth;
-    private  FirebaseDatabase database;
+    private boolean finished = false;
     ActionAdapter(Context context, List<Action> actionList){
         this.context = context;
         this.actionList = actionList;
@@ -42,7 +43,6 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
     public ActionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.actioncardview, parent, false);
         mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
         return new ViewHolder(view);
     }
     @Override
@@ -84,11 +84,9 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 System.out.println("Edit button of " + action.getzActionID() + " pressed");
-                /* TODO: Start a New Intent with Extra attribute (zActionID)
-
-                 */
-
-
+                Intent intent = new Intent(context, EditActionActivity.class);
+                intent.putExtra("zActionID",action.getzActionID());
+                context.startActivity(intent);
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -98,12 +96,29 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
                holder.constraint_to_hide.setVisibility(View.GONE);
                holder.card_view.setVisibility(View.GONE);
                holder.linear_to_hide.setVisibility(View.GONE);
-               /* TODO: Delete data in database
-
-               */
                String aKey = action.getzActionID();
-               database.getReference(aKey).removeValue();
+               String userId = mAuth.getCurrentUser().getUid();
+               FirebaseDatabase.getInstance().getReference(userId+"/"+aKey).removeValue();
+            }
+        });
 
+        //peter edit finishBtn
+        holder.finishButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if(!finished) {
+                    holder.finishButton.setBackgroundResource(R.drawable.checked);
+                    holder.card_view.setCardBackgroundColor(context.getResources().getColor(R.color.colorGray));
+                    holder.editButton.setVisibility(View.INVISIBLE);
+                    holder.deleteButton.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    holder.finishButton.setBackgroundResource(R.drawable.notchecked);
+                    holder.card_view.setCardBackgroundColor(context.getResources().getColor(R.color.colorWhite));
+                    holder.editButton.setVisibility(View.VISIBLE);
+                    holder.deleteButton.setVisibility(View.VISIBLE);
+                }
+                finished = !finished;
             }
         });
     }
@@ -125,6 +140,7 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
         ImageView actionPicture;
         ImageButton editButton;
         ImageButton deleteButton;
+        ImageButton finishButton;
         CardView card_view;
         ConstraintLayout constraint_to_hide;
         LinearLayout linear_to_hide;
@@ -139,14 +155,12 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
             card_usage = (TextView) itemView.findViewById(R.id.card_usage);
             editButton = itemView.findViewById(R.id.editButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
+            finishButton = itemView.findViewById(R.id.finishButton);
             card_view = itemView.findViewById(R.id.card_view);
             constraint_to_hide = itemView.findViewById(R.id.constraint_to_hide);
             linear_to_hide = itemView.findViewById(R.id.linear_to_hide);
-
-
         }
     }
-
 
 }
 
