@@ -216,7 +216,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="12dp"
-            android:src="@drawable/actionicon"
+            android:src="@drawable/noimage"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/deleteButton" />
 

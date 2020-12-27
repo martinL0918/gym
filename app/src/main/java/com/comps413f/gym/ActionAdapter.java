@@ -81,6 +81,7 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
             });
         }
         if (action.getHaveChecked() == "true"){
+            System.out.println("yes, checked");
             holder.finishButton.setBackgroundResource(R.drawable.checked);
             holder.card_view.setCardBackgroundColor(context.getResources().getColor(R.color.colorGray));
             holder.editButton.setVisibility(View.INVISIBLE);

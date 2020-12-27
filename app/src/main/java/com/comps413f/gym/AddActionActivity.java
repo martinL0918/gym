@@ -53,7 +53,7 @@ public class AddActionActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private String uniqueid = "";
     private String haveImage = "false";
-
+    private ProgressDialog progressDialog;
 
     static final String EXTRA_DATA = "addRoutine"; // Extra key
 
@@ -75,7 +75,7 @@ public class AddActionActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.addaction);
-
+        progressDialog = new ProgressDialog(this);
         //change the color of textViews
 
         TextView actionName = (TextView) findViewById(R.id.actionName);
@@ -147,6 +147,12 @@ public class AddActionActivity extends AppCompatActivity {
             ReturnToLogin();
             Toast.makeText(AddActionActivity.this,"You have not signed in",Toast.LENGTH_LONG).show();
         }
+
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dismissProgressDialog();
 
     }
     @Override
@@ -276,7 +282,7 @@ public class AddActionActivity extends AppCompatActivity {
             }
             toUpload.put("days",repeat.substring(0,repeat.length()-1));
             myRef.setValue(toUpload);
-            if (haveImage.equals(true)) {
+            if (haveImage.equals("true")) {
                 uploadImageToDatabase();
             }else{
                 Intent intent = new Intent(AddActionActivity.this,Routine.class);
@@ -343,6 +349,11 @@ public class AddActionActivity extends AppCompatActivity {
         intent.setClass(AddActionActivity.this,LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
 }
