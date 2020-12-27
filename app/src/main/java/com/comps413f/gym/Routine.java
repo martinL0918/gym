@@ -104,13 +104,7 @@ public class Routine extends AppCompatActivity {
         day1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doTranslate(day1)) {
-                    Intent intent = new Intent(Routine.this,
-                            Recyclerbase.class);
-                    intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "Day 1");
-                    startActivity(intent);
-                }
+                doTranslate(day1);
             }
         });
 
@@ -118,13 +112,7 @@ public class Routine extends AppCompatActivity {
         day2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doTranslate(day2)) {
-                    Intent intent = new Intent(Routine.this,
-                            Recyclerbase.class);
-                    intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "Day 2");
-                    startActivity(intent);
-                }
+                doTranslate(day2);
             }
         });
 
@@ -132,13 +120,7 @@ public class Routine extends AppCompatActivity {
         day3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doTranslate(day3)) {
-                    Intent intent = new Intent(Routine.this,
-                            Recyclerbase.class);
-                    intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "Day 3");
-                    startActivity(intent);
-                }
+                doTranslate(day3);
             }
         });
 
@@ -147,13 +129,7 @@ public class Routine extends AppCompatActivity {
         day4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doTranslate(day4)) {
-                    Intent intent = new Intent(Routine.this,
-                            Recyclerbase.class);
-                    intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "Day 4");
-                    startActivity(intent);
-                }
+                doTranslate(day4);
             }
         });
 
@@ -161,13 +137,7 @@ public class Routine extends AppCompatActivity {
         day5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doTranslate(day5)) {
-                    Intent intent = new Intent(Routine.this,
-                            Recyclerbase.class);
-                    intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "Day 5");
-                    startActivity(intent);
-                }
+                    doTranslate(day5);
             }
         });
 
@@ -175,13 +145,7 @@ public class Routine extends AppCompatActivity {
         day6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doTranslate(day6)) {
-                    Intent intent = new Intent(Routine.this,
-                            Recyclerbase.class);
-                    intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "Day 6");
-                    startActivity(intent);
-                }
+                    doTranslate(day6);
             }
         });
 
@@ -190,16 +154,9 @@ public class Routine extends AppCompatActivity {
         day7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doTranslate(day7)) {
-                    Intent intent = new Intent(Routine.this,
-                            Recyclerbase.class);
-                    intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "Day 7");
-                    startActivity(intent);
-                }
+                    doTranslate(day7);
             }
         });
-
 
 
         final Button add = (Button)findViewById(R.id.addDayButton);
@@ -269,13 +226,33 @@ public class Routine extends AppCompatActivity {
         finish();
     }
 
-    public boolean doTranslate(Button button) {
+    public boolean doTranslate(final Button button) {
         int distance = ((View)button.getParent()).getWidth() - button.getWidth();
         Animation animation = new TranslateAnimation(0, distance, 0, 0); // TranslateAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta)
-        animation.setDuration(50);
-        // animation.setRepeatCount(1);
-        // animation.setRepeatMode(Animation.REVERSE); // going backward
+        animation.setDuration(500);
+        animation.setRepeatCount(1);
+        animation.setRepeatMode(Animation.REVERSE); // going backward
         button.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Intent intent = new Intent(Routine.this,
+                        Recyclerbase.class);
+                intent.putExtra(Recyclerbase.EXTRA_DAY,
+                        button.getText().toString());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         return true;
     }
 
