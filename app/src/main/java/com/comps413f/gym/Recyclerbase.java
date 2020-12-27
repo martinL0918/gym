@@ -201,7 +201,6 @@ public class Recyclerbase extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Recyclerbase.this,Routine.class);
                 startActivity(intent);
-                finish();
             }
         });
         // Create and show the alert dialog

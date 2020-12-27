@@ -288,7 +288,9 @@ public class AddActionActivity extends AppCompatActivity {
                // Progress Bar
                final ProgressDialog progressDialog = new ProgressDialog(AddActionActivity.this);
                progressDialog.setTitle("Uploading Image...");
-               progressDialog.show();
+               if (!isFinishing()) {
+                   progressDialog.show();
+               }
                //Firebase storage
                StorageReference uploadRef = mStorageRef.child(mAuth.getCurrentUser().getUid()+"/images/" + uniqueid);
                uploadRef.putFile(filePath)
@@ -308,7 +310,6 @@ public class AddActionActivity extends AppCompatActivity {
            }
            Intent intent = new Intent(AddActionActivity.this,Routine.class);
             startActivity(intent);
-            finish();
         }
     private void SelectImage()
     {

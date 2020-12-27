@@ -96,7 +96,6 @@ public class EditActionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 System.out.println("Update database");
                 updateDatabase();
-                returnToRoutine();
             }
         });
         uploadImage = findViewById(R.id.uploadImage);
@@ -357,18 +356,18 @@ public class EditActionActivity extends AppCompatActivity {
         if (haveImage.equals("true")) {
             uploadImageToDatabase();
         }else{
-            /*Intent intent = new Intent(EditActionActivity.this,Routine.class);
-            startActivity(intent);
-            finish();*/
+            System.out.println("123");
         }
 
     }
     private void uploadImageToDatabase(){
         if (filePath !=null) {
             // Progress Bar
-            final ProgressDialog progressDialog = new ProgressDialog(this);
+            final ProgressDialog progressDialog = new ProgressDialog(EditActionActivity.this);
             progressDialog.setTitle("Uploading Image...");
-            progressDialog.show();
+            if (!isFinishing()) {
+                progressDialog.show();
+            }
             //Firebase storage
             StorageReference uploadRef = mStorageRef.child(mAuth.getCurrentUser().getUid()+"/images/" + zActnioID);
             uploadRef.putFile(filePath)
@@ -377,6 +376,9 @@ public class EditActionActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) { ;
                             progressDialog.dismiss();
                             Toast.makeText(EditActionActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(EditActionActivity.this,Routine.class);
+                            startActivity(intent);
+                            finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -386,6 +388,7 @@ public class EditActionActivity extends AppCompatActivity {
                         }
                     });
         }
+
     }
     private void SelectImage()
     {
@@ -420,11 +423,7 @@ public class EditActionActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    public void returnToRoutine(){
-        Intent intent = new Intent(EditActionActivity.this,Routine.class);
-        startActivity(intent);
-        finish();
-    }
+
 
 
 }
