@@ -31,6 +31,7 @@ public class Routine extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String theme = prefs.getString(getString(R.string.pref_color),getString(R.string.pref_color_default));
         System.out.println(theme);
@@ -45,25 +46,61 @@ public class Routine extends AppCompatActivity {
             System.out.println("Orange");
             setTheme(R.style.AppTheme);
         }
+
         setContentView(R.layout.routine);
         mAuth = FirebaseAuth.getInstance();
         background = findViewById(R.id.background);
+
+
+        final Button day1 = (Button)findViewById(R.id.day1);
+        final Button day2 = (Button)findViewById(R.id.day2);
+        final Button day3 = (Button)findViewById(R.id.day3);
+        final Button day4 = (Button)findViewById(R.id.day4);
+        final Button day5 = (Button)findViewById(R.id.day5);
+        final Button day6 = (Button)findViewById(R.id.day6);
+        final Button day7 = (Button)findViewById(R.id.day7);
+
+        final Button[] btnArray = new Button[] {day1,day2,day3,day4,day5,day6,day7};
+
+
+        /*
         if (theme.equals("Green")){
             background.setBackground(getResources().getDrawable(R.drawable.green_gradient));
         }
         else if (theme.equals("Purple")){
-
+            background.setBackground(getResources().getDrawable(R.drawable.purple_gradient));
         }
         else{
             background.setBackground(getResources().getDrawable(R.drawable.orange_gradient));
         }
-        //////////////
+        */
 
-        final Button day1 = (Button)findViewById(R.id.day1);
-        Button[] dayArray = new Button[]{day1};
-        for (Button aBtn : dayArray){
-            aBtn.setBackground(getResources().getDrawable(R.drawable.green_circle_background_routine));
+        switch(theme){
+            case "Green":
+                for(Button aBtn : btnArray){
+                    aBtn.setBackground(getResources().getDrawable(R.drawable.green_circle_background_routine));
+                }
+                background.setBackground(getResources().getDrawable(R.drawable.green_gradient));
+                break;
+
+            case "Purple":
+                for(Button aBtn : btnArray){
+                    aBtn.setBackground(getResources().getDrawable(R.drawable.purple_circle_background_routine));
+                }
+                background.setBackground(getResources().getDrawable(R.drawable.purple_gradient));
+                break;
+
+            default:
+                for(Button aBtn : btnArray){
+                    aBtn.setBackground(getResources().getDrawable(R.drawable.orange_circle_background_routine));
+                }
+                background.setBackground(getResources().getDrawable(R.drawable.orange_gradient));
+                break;
         }
+
+
+
+
         day1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +114,6 @@ public class Routine extends AppCompatActivity {
             }
         });
 
-        final Button day2 = (Button)findViewById(R.id.day2);
 
         day2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +128,6 @@ public class Routine extends AppCompatActivity {
             }
         });
 
-        final Button day3 = (Button)findViewById(R.id.day3);
 
         day3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +143,6 @@ public class Routine extends AppCompatActivity {
         });
 
 
-        final Button day4 = (Button)findViewById(R.id.day4);
 
         day4.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +157,6 @@ public class Routine extends AppCompatActivity {
             }
         });
 
-        final Button day5 = (Button)findViewById(R.id.day5);
 
         day5.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +171,6 @@ public class Routine extends AppCompatActivity {
             }
         });
 
-        final Button day6 = (Button)findViewById(R.id.day6);
 
         day6.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +186,6 @@ public class Routine extends AppCompatActivity {
         });
 
 
-        final Button day7 = (Button)findViewById(R.id.day7);
 
         day7.setOnClickListener(new View.OnClickListener() {
             @Override

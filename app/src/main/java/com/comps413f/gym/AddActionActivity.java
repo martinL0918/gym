@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -74,6 +75,40 @@ public class AddActionActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.addaction);
+
+        //change the color of textViews
+
+        TextView actionName = (TextView) findViewById(R.id.actionName);
+        TextView actionDescription = (TextView) findViewById(R.id.actionDescription);
+        TextView actionTimes = (TextView) findViewById(R.id.actionTimes);
+        TextView actionOrgans = (TextView) findViewById(R.id.actionOrgans);
+        TextView actionUsage = (TextView) findViewById(R.id.actionUsage);
+        TextView actionReference = (TextView) findViewById(R.id.actionReference);
+        TextView actionRepeat = (TextView) findViewById(R.id.actionRepeat);
+        TextView confirmButton = (TextView) findViewById(R.id.confirmButton);
+
+        TextView[] textViewArray = new TextView[]{  actionName, actionDescription,actionTimes,actionOrgans,
+                actionUsage, actionReference,actionRepeat,confirmButton
+        };
+
+        switch (theme){
+            case "Green":
+                for(TextView aTextView : textViewArray){
+                    aTextView.setBackground(getResources().getDrawable(R.drawable.green_circle_background));
+                }
+                break;
+            case "Purple":
+                for(TextView aTextView : textViewArray){
+                    aTextView.setBackground(getResources().getDrawable(R.drawable.purple_circle_background));
+                }
+                break;
+            default:
+                for(TextView aTextView : textViewArray){
+                    aTextView.setBackground(getResources().getDrawable(R.drawable.orange_circle_background));
+                }
+                break;
+
+        }
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         inputRepeat = findViewById(R.id.inputRepeat);

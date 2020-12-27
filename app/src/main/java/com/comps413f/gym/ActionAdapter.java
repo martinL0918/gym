@@ -12,21 +12,21 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 import java.util.List;
 
@@ -34,6 +34,7 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
     private Context context;
     private List<Action> actionList;
     private FirebaseAuth mAuth;
+    private boolean finished = false;
     ActionAdapter(Context context, List<Action> actionList){
         this.context = context;
         this.actionList = actionList;
@@ -57,51 +58,67 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
         System.out.println(mAuth.getCurrentUser().getUid()+"/images/"+action.getzActionID());
         //如果有image先retrieve
         if (action.getHaveImage().equals("true")) {
-                //Retreive Image from Firebase Storage
-                //The location of firebase storage according to our own defined structure for this mini project
-                StorageReference downloadRef = FirebaseStorage.getInstance().getReference(mAuth.getCurrentUser().getUid() + "/images/" + action.getzActionID());
-                final long ONE_MEGABYTE = 1024 * 1024;
-                downloadRef.getBytes(ONE_MEGABYTE)
-                        .addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                            @Override
-                            public void onSuccess(byte[] bytes) {
-                                Bitmap bm = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                DisplayMetrics dm = new DisplayMetrics();
-                                ((Recyclerbase) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
-                                holder.actionPicture.setMinimumHeight(dm.heightPixels);
-                                holder.actionPicture.setMinimumWidth(dm.widthPixels);
-                                holder.actionPicture.setImageBitmap(bm);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        System.out.println("Error in loading image - Use original image instead");
-                    }
-                });
+            //Retreive Image from Firebase Storage
+            //The location of firebase storage according to our own defined structure for this mini project
+            StorageReference downloadRef = FirebaseStorage.getInstance().getReference(mAuth.getCurrentUser().getUid() + "/images/" + action.getzActionID());
+            final long ONE_MEGABYTE = 1024 * 1024;
+            downloadRef.getBytes(ONE_MEGABYTE)
+                    .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            Bitmap bm = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            DisplayMetrics dm = new DisplayMetrics();
+                            ((Recyclerbase) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+                            holder.actionPicture.setMinimumHeight(dm.heightPixels);
+                            holder.actionPicture.setMinimumWidth(dm.widthPixels);
+                            holder.actionPicture.setImageBitmap(bm);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    System.out.println("Error in loading image - Use original image instead");
+                }
+            });
         }
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("Edit button of " + action.getzActionID() + " pressed");
-                /* TODO: Start a New Intent with Extra attribute (zActionID)
-                 */
-
+                Intent intent = new Intent(context, EditActionActivity.class);
+                intent.putExtra("zActionID",action.getzActionID());
+                context.startActivity(intent);
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Just hide the whole view from RecyclerLayout
-               holder.constraint_to_hide.setVisibility(View.GONE);
-               holder.card_view.setVisibility(View.GONE);
-               holder.linear_to_hide.setVisibility(View.GONE);
-               /* TODO: Delete data in database
+                holder.constraint_to_hide.setVisibility(View.GONE);
+                holder.card_view.setVisibility(View.GONE);
+                holder.linear_to_hide.setVisibility(View.GONE);
+                String aKey = action.getzActionID();
+                String userId = mAuth.getCurrentUser().getUid();
+                FirebaseDatabase.getInstance().getReference(userId+"/"+aKey).removeValue();
+            }
+        });
 
-               */
-                DatabaseReference deletehref = FirebaseDatabase.getInstance().getReference("OPTpOKwSIcMNvYCxFOIwsHMuEbz2/-MPRzsMsYJYWjPEnwM8J");
-                deletehref.removeValue();
-
-
+        //peter edit finishBtn
+        holder.finishButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if(!finished) {
+                    holder.finishButton.setBackgroundResource(R.drawable.checked);
+                    holder.card_view.setCardBackgroundColor(context.getResources().getColor(R.color.colorGray));
+                    holder.editButton.setVisibility(View.INVISIBLE);
+                    holder.deleteButton.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    holder.finishButton.setBackgroundResource(R.drawable.notchecked);
+                    holder.card_view.setCardBackgroundColor(context.getResources().getColor(R.color.colorWhite));
+                    holder.editButton.setVisibility(View.VISIBLE);
+                    holder.deleteButton.setVisibility(View.VISIBLE);
+                }
+                finished = !finished;
             }
         });
     }
@@ -123,6 +140,7 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
         ImageView actionPicture;
         ImageButton editButton;
         ImageButton deleteButton;
+        ImageButton finishButton;
         CardView card_view;
         ConstraintLayout constraint_to_hide;
         LinearLayout linear_to_hide;
@@ -137,11 +155,10 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
             card_usage = (TextView) itemView.findViewById(R.id.card_usage);
             editButton = itemView.findViewById(R.id.editButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
+            finishButton = itemView.findViewById(R.id.finishButton);
             card_view = itemView.findViewById(R.id.card_view);
             constraint_to_hide = itemView.findViewById(R.id.constraint_to_hide);
             linear_to_hide = itemView.findViewById(R.id.linear_to_hide);
-
-
         }
     }
 

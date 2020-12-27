@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,14 +28,20 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class EditActionActivity extends AppCompatActivity {
@@ -50,8 +57,7 @@ public class EditActionActivity extends AppCompatActivity {
     private String uniqueid = "";
     private String haveImage = "false";
 
-
-    static final String EXTRA_DATA = "addRoutine"; // Extra key
+    static final String EXTRA_DATA = "zActionID"; // Extra key
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +93,158 @@ public class EditActionActivity extends AppCompatActivity {
                 updateDatabase(); //include upload Image to Storage inside
             }
         });
+
+        //change the colors of the views
+/*
+        String[] aString = [actionName, actionDescription,actionTimes,actionOrgans
+                            ,actionUsage, actionReference,actionRepeat,confirmButton];
+*/
+        TextView actionName = (TextView) findViewById(R.id.actionName);
+        TextView actionDescription = (TextView) findViewById(R.id.actionDescription);
+        TextView actionTimes = (TextView) findViewById(R.id.actionTimes);
+        TextView actionOrgans = (TextView) findViewById(R.id.actionOrgans);
+        TextView actionUsage = (TextView) findViewById(R.id.actionUsage);
+        TextView actionReference = (TextView) findViewById(R.id.actionReference);
+        TextView actionRepeat = (TextView) findViewById(R.id.actionRepeat);
+        TextView confirmButton = (TextView) findViewById(R.id.confirmButton);
+
+        TextView[] textViewArray = new TextView[]{  actionName, actionDescription,actionTimes,actionOrgans,
+                actionUsage, actionReference,actionRepeat,confirmButton
+        };
+
+        final EditText inputName = findViewById(R.id.inputName);
+        final EditText inputDescription = findViewById(R.id.inputDescription);
+        final EditText inputTimes = findViewById(R.id.inputTimes);
+        final EditText inputOrgans = findViewById(R.id.inputOrgans);
+        final EditText inputUsage = findViewById(R.id.inputUsage);
+        final EditText inputReference = findViewById(R.id.inputReference);
+        final Button inputRepeat = (Button)findViewById(R.id.inputRepeat);
+
+        switch (theme){
+            case "Green":
+                for(TextView aTextView : textViewArray){
+                    aTextView.setBackground(getResources().getDrawable(R.drawable.green_circle_background));
+                }
+                break;
+            case "Purple":
+                for(TextView aTextView : textViewArray){
+                    aTextView.setBackground(getResources().getDrawable(R.drawable.purple_circle_background));
+                }
+                break;
+            default:
+                for(TextView aTextView : textViewArray){
+                    aTextView.setBackground(getResources().getDrawable(R.drawable.orange_circle_background));
+                }
+                break;
+
+        }
+
+
         // get the extra value
         String addData = getIntent().getStringExtra(EXTRA_DATA);
+        System.out.println("Extra id: "+ addData);
+
+        //retrieve data from firebase by zActionId
+
+        String userId = mAuth.getCurrentUser().getUid();
+        String path = userId+"/"+addData;
+        System.out.println("The path: "+path);
+        DatabaseReference mGetReference = FirebaseDatabase.getInstance().getReference(path);
+        mGetReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()){
+                    System.out.println("dataSnapshot:"+dataSnapshot);
+                    System.out.println("dataSnapshot getValue():"+dataSnapshot.getValue());
+                    Action temp = dataSnapshot.getValue(Action.class);
+
+                    inputName.setText(temp.getActionName());
+                    inputDescription.setText(temp.getDescription());
+                    inputTimes.setText(temp.getTimes());
+                    inputOrgans.setText(temp.getOrgans());
+                    inputUsage.setText(temp.getUsage());
+                    inputReference.setText(temp.getReferences());
+                    inputRepeat.setText(temp.getDays());
+
+                    List<String> dayLists = Arrays.asList(temp.getDays().split(","));
+
+                    if(dayLists.contains("Day 1")){
+                        checkedItems[0] = true;
+                    }
+                    if(dayLists.contains("Day 2")){
+                        checkedItems[1] = true;
+                    }
+                    if(dayLists.contains("Day 3")){
+                        checkedItems[2] = true;
+                    }
+                    if(dayLists.contains("Day 4")){
+                        checkedItems[3] = true;
+                    }
+                    if(dayLists.contains("Day 5")){
+                        checkedItems[4] = true;
+                    }
+                    if(dayLists.contains("Day 6")){
+                        checkedItems[5] = true;
+                    }
+                    if(dayLists.contains("Day 7")){
+                        checkedItems[6] = true;
+                    }
+                    /*
+                    ArrayList<String> newDayLists = new ArrayList<String>();
+                    for(int i = 0; i<dayLists.size();i++){
+                        if(i==0){
+                            newDayLists.add(dayLists.get(i));
+                        }
+                        else{
+                            newDayLists.add(dayLists.get(i).substring(1));
+                        }
+                    }
+                    System.out.println("dayList:"+dayLists);
+
+                    for(int i=0;i<dayLists.size();i++){
+                        System.out.println("newDayLists: "+i+":"+dayLists.get(i));
+                    }
+                    */
+                    //HashMap<String, Object> dataMap = (HashMap<String, Object>) dataSnapshot.getValue();
+                    /*
+                    System.out.println("KeySet: "+dataMap.keySet());
+
+                    for (String key : dataMap.keySet()){
+                        Object data = dataMap.get(key);
+                        try{
+
+                            HashMap<String, Object> userData = (HashMap<String, Object>) data;
+
+                            User mUser = new User((String) userData.get("name"), (int) (long) userData.get("age"));
+                            addTextToView(mUser.getName() + " - " + Integer.toString(mUser.getAge()));
+
+                            System.out.println("Object: "+ data);
+                                                        System.out.println("Object: "+ data);
+
+
+                        }catch (ClassCastException cce){
+                    // If the object can’t be casted into HashMap, it means that it is of type String.
+                            try{
+                                /*
+                                String mString = String.valueOf(dataMap.get(key));
+                                addTextToView(mString);
+
+                            }catch (ClassCastException cce2){
+
+                            }
+                        }
+
+                    }
+                    */
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
     @Override
     public void onStart() {
@@ -134,103 +290,103 @@ public class EditActionActivity extends AppCompatActivity {
     }
 
     protected void displayAlertDialog(){
-            // Set up the alert builder
-            AlertDialog.Builder builder = new AlertDialog.Builder(EditActionActivity.this);
-            builder.setTitle("Choose Days");
-            // Add a checkbox list
-                    builder.setMultiChoiceItems(weekday, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                            // The user checked or unchecked a box
-                                checkedItems[which] = isChecked;
-                        }
-                    });
-
-
-            // Add OK and Cancel buttons
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // The user clicked OK
-                            int i =0;
-                            String result = "";
-                            for (boolean checked: checkedItems) {
-                                if (checked == true){
-                                    result += weekday[i] + "\n";
-                                }
-                                i++;
-                            }
-                            result = result.substring(0,result.length() - 1);
-                            inputRepeat.setText(result);
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", null);
-            // Create and show the alert dialog
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-        }
-
-        private void updateDatabase() {
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            EditText inputName = findViewById(R.id.inputName);
-            EditText inputDescription = findViewById(R.id.inputDescription);
-            EditText inputTimes = findViewById(R.id.inputTimes);
-            EditText inputOrgans = findViewById(R.id.inputOrgans);
-            EditText inputUsage = findViewById(R.id.inputUsage);
-            EditText inputReference = findViewById(R.id.inputReference);
-            String repeat = "";
-
-            int count = 0;
-            if (TextUtils.isEmpty(inputName.getText().toString())){
-                inputName.setError(getString(R.string.cannotBeEmpty));
-                return;
+        // Set up the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditActionActivity.this);
+        builder.setTitle("Choose Days");
+        // Add a checkbox list
+        builder.setMultiChoiceItems(weekday, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                // The user checked or unchecked a box
+                checkedItems[which] = isChecked;
             }
-            if (TextUtils.isEmpty(inputDescription.getText().toString())){
-                inputDescription.setError(getString(R.string.cannotBeEmpty));
-                return;
-            }
-            if (TextUtils.isEmpty(inputTimes.getText().toString())){
-                inputTimes.setError(getString(R.string.cannotBeEmpty));
-                return;
-            }
-            if (TextUtils.isEmpty(inputOrgans.getText().toString())){
-                inputOrgans.setError(getString(R.string.cannotBeEmpty));
-                return;
-            }
-            if (TextUtils.isEmpty(inputUsage.getText().toString())){
-                inputUsage.setError(getString(R.string.cannotBeEmpty));
-                return;
-            }
-            if (TextUtils.isEmpty(inputReference.getText().toString())){
-                inputReference.setError(getString(R.string.cannotBeEmpty));
-                return;
-            }
-
-            DatabaseReference myRef = database.getReference(mAuth.getCurrentUser().getUid()+"/"+"");
-            HashMap<String, String> toUpload= new HashMap<String, String>();
-
-            toUpload.put("actionName",inputName.getText().toString());
-            toUpload.put("description",inputDescription.getText().toString());
-            toUpload.put("times",inputTimes.getText().toString());
-            toUpload.put("organs",inputOrgans.getText().toString());
-            toUpload.put("usage",inputUsage.getText().toString());
-            toUpload.put("references",inputReference.getText().toString());
-            toUpload.put("zActionID",uniqueid);
-            toUpload.put("haveImage",haveImage);
-            System.out.println(inputRepeat.getText().toString());
-            for (int i = 0 ; i< checkedItems.length; i++) {
-                if (checkedItems[i] == true){
-                    repeat += weekday[i] + ",";
+        });
+        // Add OK and Cancel buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // The user clicked OK
+                int i =0;
+                String result = "";
+                for (boolean checked: checkedItems) {
+                    if (checked == true){
+                        result += weekday[i] + "\n";
+                    }
+                    i++;
                 }
+                result = result.substring(0,result.length() - 1);
+                inputRepeat.setText(result);
             }
-            if ( repeat.equals("")){
-                inputRepeat.setError(getString(R.string.cannotBeEmpty));
-                return;
-            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        // Create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
-            toUpload.put("days",repeat.substring(0,repeat.length()-1));
-            myRef.setValue(toUpload)
+    private void updateDatabase() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        EditText inputName = findViewById(R.id.inputName);
+        EditText inputDescription = findViewById(R.id.inputDescription);
+        EditText inputTimes = findViewById(R.id.inputTimes);
+        EditText inputOrgans = findViewById(R.id.inputOrgans);
+        EditText inputUsage = findViewById(R.id.inputUsage);
+        EditText inputReference = findViewById(R.id.inputReference);
+        String repeat = "";
+
+        int count = 0;
+        if (TextUtils.isEmpty(inputName.getText().toString())){
+            inputName.setError(getString(R.string.cannotBeEmpty));
+            return;
         }
+        if (TextUtils.isEmpty(inputDescription.getText().toString())){
+            inputDescription.setError(getString(R.string.cannotBeEmpty));
+            return;
+        }
+        if (TextUtils.isEmpty(inputTimes.getText().toString())){
+            inputTimes.setError(getString(R.string.cannotBeEmpty));
+            return;
+        }
+        if (TextUtils.isEmpty(inputOrgans.getText().toString())){
+            inputOrgans.setError(getString(R.string.cannotBeEmpty));
+            return;
+        }
+        if (TextUtils.isEmpty(inputUsage.getText().toString())){
+            inputUsage.setError(getString(R.string.cannotBeEmpty));
+            return;
+        }
+        if (TextUtils.isEmpty(inputReference.getText().toString())){
+            inputReference.setError(getString(R.string.cannotBeEmpty));
+            return;
+        }
+
+        DatabaseReference myRef = database.getReference(mAuth.getCurrentUser().getUid());
+        HashMap<String, String> toUpload= new HashMap<String, String>();
+
+        toUpload.put("actionName",inputName.getText().toString());
+        toUpload.put("description",inputDescription.getText().toString());
+        toUpload.put("times",inputTimes.getText().toString());
+        toUpload.put("organs",inputOrgans.getText().toString());
+        toUpload.put("usage",inputUsage.getText().toString());
+        toUpload.put("references",inputReference.getText().toString());
+        DatabaseReference  newRef= myRef.push();
+        uniqueid = newRef.getKey();
+        toUpload.put("zActionID",uniqueid);
+        toUpload.put("haveImage",haveImage);
+        System.out.println(inputRepeat.getText().toString());
+        for (int i = 0 ; i< checkedItems.length; i++) {
+            if (checkedItems[i] == true){
+                repeat += weekday[i] + ",";
+            }
+        }
+        if ( repeat.equals("")){
+            inputRepeat.setError(getString(R.string.cannotBeEmpty));
+            return;
+        }
+
+        toUpload.put("days",repeat.substring(0,repeat.length()-1));
+        newRef.setValue(toUpload);
+    }
 
     public void ReturnToLogin(){
         Intent intent = new Intent();
