@@ -32,9 +32,9 @@ import java.util.List;
 public class Recyclerbase extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private SharedPreferences prefs;
-    private ProgressDialog progressDialog;
     static final String EXTRA_DAY = "routineDay"; // extra key
     private TextView timerTextView;
+    private AlertDialog diag = null;
     long startTime = 0;
     //runs without a timer by reposting this handler at the end of the runnable
     final Handler timerHandler = new Handler();
@@ -67,7 +67,6 @@ public class Recyclerbase extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.recyclerbase);
-        progressDialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
         final List<Action> actionList = new ArrayList<>();
         //For testing
@@ -105,7 +104,11 @@ public class Recyclerbase extends AppCompatActivity {
                 if (actionList.size() == 0){
                     adapter.notifyDataSetChanged();
                     timerTextView.setText("");
-                    createDialog(day);
+
+                    diag = createDialog(day);
+                    if (!isFinishing()){
+                        diag.show();
+                    }
                 }
             }
 
@@ -117,6 +120,8 @@ public class Recyclerbase extends AppCompatActivity {
             timerTextView = findViewById(R.id.timerTextView);
             startTime = System.currentTimeMillis();
             timerHandler.postDelayed(timerRunnable, 0);
+
+
     }
 
     @Override
@@ -128,15 +133,25 @@ public class Recyclerbase extends AppCompatActivity {
         timerHandler.postDelayed(timerRunnable, 0);
     }
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        dismissProgressDialog();
-
-    }
-    @Override
     public void onPause() {
         super.onPause();
         timerHandler.removeCallbacks(timerRunnable);
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if(diag != null)
+            diag.dismiss();
+            System.out.println("onStop Destroyed");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(diag != null)
+            diag.dismiss();
+        System.out.println("onDestr Destroyed");
     }
 
     @Override
@@ -175,7 +190,7 @@ public class Recyclerbase extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    public void createDialog(String day){
+    public AlertDialog createDialog(String day){
         AlertDialog.Builder builder = new AlertDialog.Builder(Recyclerbase.this);
         builder.setTitle("Empty");
         // Add a checkbox list
@@ -190,13 +205,10 @@ public class Recyclerbase extends AppCompatActivity {
             }
         });
         // Create and show the alert dialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        final AlertDialog dialog = builder.create();
+
+        return dialog;
     }
-    private void dismissProgressDialog() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-    }
+
 
 }

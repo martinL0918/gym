@@ -57,7 +57,7 @@ public class EditActionActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private String zActnioID = "";
     private String haveImage = "false";
-    private ProgressDialog progressDialog;
+    private AlertDialog dialog;
 
     static final String EXTRA_DATA = "zActionID"; // Extra key
 
@@ -79,7 +79,8 @@ public class EditActionActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.editaction);
-        progressDialog = new ProgressDialog(this);
+
+
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         inputRepeat = findViewById(R.id.inputRepeat);
@@ -225,12 +226,7 @@ public class EditActionActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        dismissProgressDialog();
 
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -361,16 +357,16 @@ public class EditActionActivity extends AppCompatActivity {
         if (haveImage.equals("true")) {
             uploadImageToDatabase();
         }else{
-            Intent intent = new Intent(EditActionActivity.this,Routine.class);
+            /*Intent intent = new Intent(EditActionActivity.this,Routine.class);
             startActivity(intent);
-            finish();
+            finish();*/
         }
 
     }
     private void uploadImageToDatabase(){
         if (filePath !=null) {
             // Progress Bar
-
+            final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading Image...");
             progressDialog.show();
             //Firebase storage
@@ -429,10 +425,6 @@ public class EditActionActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    private void dismissProgressDialog() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-    }
+
 
 }

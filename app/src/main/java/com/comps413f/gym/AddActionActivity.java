@@ -53,7 +53,6 @@ public class AddActionActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private String uniqueid = "";
     private String haveImage = "false";
-    private ProgressDialog progressDialog;
 
     static final String EXTRA_DATA = "addRoutine"; // Extra key
 
@@ -75,7 +74,6 @@ public class AddActionActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.addaction);
-        progressDialog = new ProgressDialog(this);
         //change the color of textViews
 
         TextView actionName = (TextView) findViewById(R.id.actionName);
@@ -149,12 +147,7 @@ public class AddActionActivity extends AppCompatActivity {
         }
 
     }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        dismissProgressDialog();
 
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -191,34 +184,34 @@ public class AddActionActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(AddActionActivity.this);
             builder.setTitle("Choose Days");
             // Add a checkbox list
-                    builder.setMultiChoiceItems(weekday, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                            // The user checked or unchecked a box
-                                checkedItems[which] = isChecked;
-                        }
-                    });
+            builder.setMultiChoiceItems(weekday, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                    // The user checked or unchecked a box
+                    checkedItems[which] = isChecked;
+                }
+            });
             // Add OK and Cancel buttons
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // The user clicked OK
-                            int i =0;
-                            String result = "";
-                            for (boolean checked: checkedItems) {
-                                if (checked == true){
-                                    result += weekday[i] + "\n";
-                                }
-                                i++;
-                            }
-                            result = result.substring(0,result.length() - 1);
-                            inputRepeat.setText(result);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // The user clicked OK
+                    int i =0;
+                    String result = "";
+                    for (boolean checked: checkedItems) {
+                        if (checked == true){
+                            result += weekday[i] + "\n";
                         }
-                    });
-                    builder.setNegativeButton("Cancel", null);
+                        i++;
+                    }
+                    result = result.substring(0,result.length() - 1);
+                    inputRepeat.setText(result);
+                }
+            });
+            builder.setNegativeButton("Cancel", null);
             // Create and show the alert dialog
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+            final AlertDialog dialog = builder.create();
+            dialog.show();
         }
 
         private void uploadDatabase() {
@@ -293,8 +286,7 @@ public class AddActionActivity extends AppCompatActivity {
         private void uploadImageToDatabase(){
            if (filePath !=null) {
                // Progress Bar
-               final ProgressDialog progressDialog
-                       = new ProgressDialog(this);
+               final ProgressDialog progressDialog = new ProgressDialog(AddActionActivity.this);
                progressDialog.setTitle("Uploading Image...");
                progressDialog.show();
                //Firebase storage
@@ -350,10 +342,6 @@ public class AddActionActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    private void dismissProgressDialog() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-    }
+
 
 }
