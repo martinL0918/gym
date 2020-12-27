@@ -80,6 +80,12 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
                 }
             });
         }
+        if (action.getHaveChecked() == "true"){
+            holder.finishButton.setBackgroundResource(R.drawable.checked);
+            holder.card_view.setCardBackgroundColor(context.getResources().getColor(R.color.colorGray));
+            holder.editButton.setVisibility(View.INVISIBLE);
+            holder.deleteButton.setVisibility(View.INVISIBLE);
+        }
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,19 +112,24 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
         holder.finishButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                String userId = mAuth.getCurrentUser().getUid();
+                String aKey = action.getzActionID();
                 if(!finished) {
                     holder.finishButton.setBackgroundResource(R.drawable.checked);
                     holder.card_view.setCardBackgroundColor(context.getResources().getColor(R.color.colorGray));
                     holder.editButton.setVisibility(View.INVISIBLE);
                     holder.deleteButton.setVisibility(View.INVISIBLE);
+                    FirebaseDatabase.getInstance().getReference(userId+"/"+aKey+"/haveChecked").setValue("true");
                 }
                 else {
                     holder.finishButton.setBackgroundResource(R.drawable.notchecked);
                     holder.card_view.setCardBackgroundColor(context.getResources().getColor(R.color.colorWhite));
                     holder.editButton.setVisibility(View.VISIBLE);
                     holder.deleteButton.setVisibility(View.VISIBLE);
+                    FirebaseDatabase.getInstance().getReference(userId+"/"+aKey+"/haveChecked").setValue("false");
                 }
                 finished = !finished;
+
             }
         });
     }

@@ -10,12 +10,13 @@ public class Action {
     private String times;
     private String usage;
     private String zActionID;
+    private String haveChecked;
 
 
     public Action() {
     }
 
-    public Action(String actionName, String days, String description,String haveImage, String organs, String references, String times, String usage, String zActionID) {
+    public Action(String actionName, String days, String description,String haveImage, String organs, String references, String times, String usage, String zActionID,String haveChecked) {
         this.actionName = actionName;
         this.days = days;
         this.description = description;
@@ -25,6 +26,7 @@ public class Action {
         this.times = times;
         this.usage = usage;
         this.zActionID = zActionID;
+        this.haveChecked = haveChecked;
     }
 
     public String getActionName() {
@@ -97,5 +99,13 @@ public class Action {
 
     public void setzActionID(String zActionID) {
         this.zActionID = zActionID;
+    }
+
+    public String getHaveChecked() {
+        return haveChecked;
+    }
+
+    public void setHaveChecked(String haveChecked) {
+        this.haveChecked = haveChecked;
     }
 }

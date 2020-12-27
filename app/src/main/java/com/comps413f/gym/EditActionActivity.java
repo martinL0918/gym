@@ -54,7 +54,7 @@ public class EditActionActivity extends AppCompatActivity {
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 22;
     private StorageReference mStorageRef;
-    private String uniqueid = "";
+    private String zActnioID = "";
     private String haveImage = "false";
 
     static final String EXTRA_DATA = "zActionID"; // Extra key
@@ -90,7 +90,9 @@ public class EditActionActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateDatabase(); //include upload Image to Storage inside
+                System.out.println("Update database");
+                updateDatabase();
+                returnToRoutine();
             }
         });
 
@@ -166,7 +168,7 @@ public class EditActionActivity extends AppCompatActivity {
                     inputUsage.setText(temp.getUsage());
                     inputReference.setText(temp.getReferences());
                     inputRepeat.setText(temp.getDays());
-
+                    zActnioID = temp.getzActionID();
                     List<String> dayLists = Arrays.asList(temp.getDays().split(","));
 
                     if(dayLists.contains("Day 1")){
@@ -190,53 +192,7 @@ public class EditActionActivity extends AppCompatActivity {
                     if(dayLists.contains("Day 7")){
                         checkedItems[6] = true;
                     }
-                    /*
-                    ArrayList<String> newDayLists = new ArrayList<String>();
-                    for(int i = 0; i<dayLists.size();i++){
-                        if(i==0){
-                            newDayLists.add(dayLists.get(i));
-                        }
-                        else{
-                            newDayLists.add(dayLists.get(i).substring(1));
-                        }
-                    }
-                    System.out.println("dayList:"+dayLists);
 
-                    for(int i=0;i<dayLists.size();i++){
-                        System.out.println("newDayLists: "+i+":"+dayLists.get(i));
-                    }
-                    */
-                    //HashMap<String, Object> dataMap = (HashMap<String, Object>) dataSnapshot.getValue();
-                    /*
-                    System.out.println("KeySet: "+dataMap.keySet());
-
-                    for (String key : dataMap.keySet()){
-                        Object data = dataMap.get(key);
-                        try{
-
-                            HashMap<String, Object> userData = (HashMap<String, Object>) data;
-
-                            User mUser = new User((String) userData.get("name"), (int) (long) userData.get("age"));
-                            addTextToView(mUser.getName() + " - " + Integer.toString(mUser.getAge()));
-
-                            System.out.println("Object: "+ data);
-                                                        System.out.println("Object: "+ data);
-
-
-                        }catch (ClassCastException cce){
-                    // If the object can’t be casted into HashMap, it means that it is of type String.
-                            try{
-                                /*
-                                String mString = String.valueOf(dataMap.get(key));
-                                addTextToView(mString);
-
-                            }catch (ClassCastException cce2){
-
-                            }
-                        }
-
-                    }
-                    */
                 }
             }
 
@@ -360,20 +316,18 @@ public class EditActionActivity extends AppCompatActivity {
             return;
         }
 
-        DatabaseReference myRef = database.getReference(mAuth.getCurrentUser().getUid());
+        DatabaseReference myRef = database.getReference(mAuth.getCurrentUser().getUid()+"/"+getIntent().getStringExtra(EXTRA_DATA));
+        System.out.println(mAuth.getCurrentUser().getUid()+"/"+getIntent().getStringExtra(EXTRA_DATA));
         HashMap<String, String> toUpload= new HashMap<String, String>();
-
         toUpload.put("actionName",inputName.getText().toString());
         toUpload.put("description",inputDescription.getText().toString());
         toUpload.put("times",inputTimes.getText().toString());
         toUpload.put("organs",inputOrgans.getText().toString());
         toUpload.put("usage",inputUsage.getText().toString());
         toUpload.put("references",inputReference.getText().toString());
-        DatabaseReference  newRef= myRef.push();
-        uniqueid = newRef.getKey();
-        toUpload.put("zActionID",uniqueid);
+        toUpload.put("zActionID",zActnioID);
         toUpload.put("haveImage",haveImage);
-        System.out.println(inputRepeat.getText().toString());
+        toUpload.put("haceChecked","false");
         for (int i = 0 ; i< checkedItems.length; i++) {
             if (checkedItems[i] == true){
                 repeat += weekday[i] + ",";
@@ -383,14 +337,19 @@ public class EditActionActivity extends AppCompatActivity {
             inputRepeat.setError(getString(R.string.cannotBeEmpty));
             return;
         }
-
         toUpload.put("days",repeat.substring(0,repeat.length()-1));
-        newRef.setValue(toUpload);
+        myRef.setValue(toUpload);
+
     }
 
     public void ReturnToLogin(){
         Intent intent = new Intent();
         intent.setClass(EditActionActivity.this,LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    public void returnToRoutine(){
+        Intent intent = new Intent(EditActionActivity.this,Routine.class);
         startActivity(intent);
         finish();
     }

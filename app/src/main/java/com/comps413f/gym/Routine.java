@@ -108,7 +108,7 @@ public class Routine extends AppCompatActivity {
                     Intent intent = new Intent(Routine.this,
                             Recyclerbase.class);
                     intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "day1");
+                            "Day 1");
                     startActivity(intent);
                 }
             }
@@ -122,7 +122,7 @@ public class Routine extends AppCompatActivity {
                     Intent intent = new Intent(Routine.this,
                             Recyclerbase.class);
                     intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "day2");
+                            "Day 2");
                     startActivity(intent);
                 }
             }
@@ -136,7 +136,7 @@ public class Routine extends AppCompatActivity {
                     Intent intent = new Intent(Routine.this,
                             Recyclerbase.class);
                     intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "day3");
+                            "Day 3");
                     startActivity(intent);
                 }
             }
@@ -151,7 +151,7 @@ public class Routine extends AppCompatActivity {
                     Intent intent = new Intent(Routine.this,
                             Recyclerbase.class);
                     intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "day4");
+                            "Day 4");
                     startActivity(intent);
                 }
             }
@@ -165,7 +165,7 @@ public class Routine extends AppCompatActivity {
                     Intent intent = new Intent(Routine.this,
                             Recyclerbase.class);
                     intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "day5");
+                            "Day 5");
                     startActivity(intent);
                 }
             }
@@ -179,7 +179,7 @@ public class Routine extends AppCompatActivity {
                     Intent intent = new Intent(Routine.this,
                             Recyclerbase.class);
                     intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "day6");
+                            "Day 6");
                     startActivity(intent);
                 }
             }
@@ -194,7 +194,7 @@ public class Routine extends AppCompatActivity {
                     Intent intent = new Intent(Routine.this,
                             Recyclerbase.class);
                     intent.putExtra(Recyclerbase.EXTRA_DAY,
-                            "day7 ");
+                            "Day 7");
                     startActivity(intent);
                 }
             }

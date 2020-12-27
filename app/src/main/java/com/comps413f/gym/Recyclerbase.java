@@ -81,9 +81,7 @@ public class Recyclerbase extends AppCompatActivity {
                     }
                 }
                 if (actionList.size() == 0){
-                    createDialog(day);
-                }
-                if (!dataSnapshot.hasChildren()){
+                    adapter.notifyDataSetChanged();
                     createDialog(day);
                 }
             }

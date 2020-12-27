@@ -251,7 +251,7 @@ public class AddActionActivity extends AppCompatActivity {
                 return;
             }
 
-            DatabaseReference myRef = database.getReference(mAuth.getCurrentUser().getUid());
+            DatabaseReference myRef = database.getReference(mAuth.getCurrentUser().getUid()).push();
             HashMap<String, String> toUpload= new HashMap<String, String>();
 
             toUpload.put("actionName",inputName.getText().toString());
@@ -260,10 +260,10 @@ public class AddActionActivity extends AppCompatActivity {
             toUpload.put("organs",inputOrgans.getText().toString());
             toUpload.put("usage",inputUsage.getText().toString());
             toUpload.put("references",inputReference.getText().toString());
-            DatabaseReference  newRef= myRef.push();
-            uniqueid = newRef.getKey();
+            uniqueid = myRef.getKey();
             toUpload.put("zActionID",uniqueid);
             toUpload.put("haveImage",haveImage);
+            toUpload.put("haveChecked","false");
             System.out.println(inputRepeat.getText().toString());
             for (int i = 0 ; i< checkedItems.length; i++) {
                 if (checkedItems[i] == true){
@@ -274,10 +274,15 @@ public class AddActionActivity extends AppCompatActivity {
                 inputRepeat.setError(getString(R.string.cannotBeEmpty));
                 return;
             }
-
             toUpload.put("days",repeat.substring(0,repeat.length()-1));
-            newRef.setValue(toUpload);
-            uploadImageToDatabase();
+            myRef.setValue(toUpload);
+            if (haveImage.equals(true)) {
+                uploadImageToDatabase();
+            }else{
+                Intent intent = new Intent(AddActionActivity.this,Routine.class);
+                startActivity(intent);
+                finish();
+            }
         }
         private void uploadImageToDatabase(){
            if (filePath !=null) {

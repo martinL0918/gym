@@ -28,6 +28,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 public class LoginActivity extends AppCompatActivity {
     Button regigser_tab;
     Button login_tab;
@@ -157,7 +159,20 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "createUserWithEmail.",
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference myRef = database.getReference(mAuth.getCurrentUser().getUid()).push();
+                            HashMap<String, String> toUpload= new HashMap<String, String>();
+                            toUpload.put("actionName","template");
+                            toUpload.put("description","template");
+                            toUpload.put("times","template");
+                            toUpload.put("organs","template");
+                            toUpload.put("usage","template");
+                            toUpload.put("references","template");
+                            String uniqueid = myRef.getKey();
+                            toUpload.put("zActionID",uniqueid);
+                            toUpload.put("haveImage","false");
+                            toUpload.put("days","Day 1, Day 2, Day 3, Day 4, Day 5, Day 6, Day 7");
+                            myRef.setValue(toUpload);
 
 
                         } else {
