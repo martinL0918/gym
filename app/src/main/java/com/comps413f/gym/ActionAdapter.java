@@ -1,6 +1,7 @@
 package com.comps413f.gym;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
@@ -17,9 +18,13 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -79,8 +84,8 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
             public void onClick(View view) {
                 System.out.println("Edit button of " + action.getzActionID() + " pressed");
                 /* TODO: Start a New Intent with Extra attribute (zActionID)
-
                  */
+
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +98,9 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
                /* TODO: Delete data in database
 
                */
+                DatabaseReference deletehref = FirebaseDatabase.getInstance().getReference("OPTpOKwSIcMNvYCxFOIwsHMuEbz2/-MPRzsMsYJYWjPEnwM8J");
+                deletehref.removeValue();
+
 
             }
         });
@@ -136,7 +144,6 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
 
         }
     }
-
 
 }
 

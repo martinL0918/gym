@@ -87,7 +87,6 @@ public class EditActionActivity extends AppCompatActivity {
                 updateDatabase(); //include upload Image to Storage inside
             }
         });
-
         // get the extra value
         String addData = getIntent().getStringExtra(EXTRA_DATA);
     }
@@ -146,6 +145,8 @@ public class EditActionActivity extends AppCompatActivity {
                                 checkedItems[which] = isChecked;
                         }
                     });
+
+
             // Add OK and Cancel buttons
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
@@ -205,7 +206,7 @@ public class EditActionActivity extends AppCompatActivity {
                 return;
             }
 
-            DatabaseReference myRef = database.getReference(mAuth.getCurrentUser().getUid());
+            DatabaseReference myRef = database.getReference(mAuth.getCurrentUser().getUid()+"/"+"");
             HashMap<String, String> toUpload= new HashMap<String, String>();
 
             toUpload.put("actionName",inputName.getText().toString());
@@ -214,8 +215,6 @@ public class EditActionActivity extends AppCompatActivity {
             toUpload.put("organs",inputOrgans.getText().toString());
             toUpload.put("usage",inputUsage.getText().toString());
             toUpload.put("references",inputReference.getText().toString());
-            DatabaseReference  newRef= myRef.push();
-            uniqueid = newRef.getKey();
             toUpload.put("zActionID",uniqueid);
             toUpload.put("haveImage",haveImage);
             System.out.println(inputRepeat.getText().toString());
@@ -230,7 +229,7 @@ public class EditActionActivity extends AppCompatActivity {
             }
 
             toUpload.put("days",repeat.substring(0,repeat.length()-1));
-            newRef.setValue(toUpload);
+            myRef.setValue(toUpload)
         }
 
     public void ReturnToLogin(){

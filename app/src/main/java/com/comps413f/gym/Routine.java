@@ -60,7 +60,10 @@ public class Routine extends AppCompatActivity {
         //////////////
 
         final Button day1 = (Button)findViewById(R.id.day1);
-
+        Button[] dayArray = new Button[]{day1};
+        for (Button aBtn : dayArray){
+            aBtn.setBackground(getResources().getDrawable(R.drawable.green_circle_background_routine));
+        }
         day1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
