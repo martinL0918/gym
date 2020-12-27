@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,15 +49,27 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
         return new ViewHolder(view);
     }
     @Override
-    public void onBindViewHolder(final ActionAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         StorageReference mStorageRef;
         final Action action = actionList.get(position);
         holder.card_name.setText(action.getActionName());
         holder.card_description.setText(action.getDescription());
         holder.card_times.setText(action.getTimes());
         holder.card_organs.setText(action.getOrgans());
-        holder.card_references.setText(action.getReferences());
+        holder.card_references.setText(Html.fromHtml(action.getReferences()));
         holder.card_usage.setText(action.getUsage());
+        holder.card_references.setMovementMethod(LinkMovementMethod.getInstance());
+        holder.card_references.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                String ref = action.getReferences();
+                if(!ref.contains("http://")){
+                    ref = "http://".concat(ref);
+                }
+                Uri myBlogUri = Uri.parse(ref);
+                Intent webIntent = new Intent(Intent.ACTION_VIEW,myBlogUri);
+                context.startActivity(webIntent);
+            }
+        });
         System.out.println(mAuth.getCurrentUser().getUid()+"/images/"+action.getzActionID());
         //如果有image先retrieve
         if (action.getHaveImage().equals("true")) {
