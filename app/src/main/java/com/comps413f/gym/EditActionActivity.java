@@ -356,7 +356,8 @@ public class EditActionActivity extends AppCompatActivity {
         if (haveImage.equals("true")) {
             uploadImageToDatabase();
         }else{
-            System.out.println("123");
+            Intent intent = new Intent(EditActionActivity.this,Routine.class);
+            startActivity(intent);
         }
 
     }
@@ -376,9 +377,7 @@ public class EditActionActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) { ;
                             progressDialog.dismiss();
                             Toast.makeText(EditActionActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(EditActionActivity.this,Routine.class);
-                            startActivity(intent);
-                            finish();
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -388,6 +387,8 @@ public class EditActionActivity extends AppCompatActivity {
                         }
                     });
         }
+        Intent intent = new Intent(EditActionActivity.this,Routine.class);
+        startActivity(intent);
 
     }
     private void SelectImage()
