@@ -49,6 +49,7 @@ public class EditActionActivity extends AppCompatActivity {
     private Button confirmButton;
     private SharedPreferences prefs;
     protected String[] weekday = {"Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"};
+    private ImageButton uploadImage;
     protected  boolean[] checkedItems = {false, false, false, false, false, false, false};
     private FirebaseAuth mAuth;
     private Uri filePath;
@@ -56,6 +57,7 @@ public class EditActionActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private String zActnioID = "";
     private String haveImage = "false";
+    private AlertDialog dialog;
 
     static final String EXTRA_DATA = "zActionID"; // Extra key
 
@@ -77,6 +79,8 @@ public class EditActionActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.editaction);
+
+
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         inputRepeat = findViewById(R.id.inputRepeat);
@@ -92,7 +96,13 @@ public class EditActionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 System.out.println("Update database");
                 updateDatabase();
-                returnToRoutine();
+            }
+        });
+        uploadImage = findViewById(R.id.uploadImage);
+        uploadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SelectImage();
             }
         });
 
@@ -214,6 +224,9 @@ public class EditActionActivity extends AppCompatActivity {
         }
 
     }
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -340,6 +353,69 @@ public class EditActionActivity extends AppCompatActivity {
         toUpload.put("days",repeat.substring(0,repeat.length()-1));
         myRef.setValue(toUpload);
 
+        if (haveImage.equals("true")) {
+            uploadImageToDatabase();
+        }else{
+            Intent intent = new Intent(EditActionActivity.this,Routine.class);
+            startActivity(intent);
+        }
+
+    }
+    private void uploadImageToDatabase(){
+        if (filePath !=null) {
+            // Progress Bar
+            final ProgressDialog progressDialog = new ProgressDialog(EditActionActivity.this);
+            progressDialog.setTitle("Uploading Image...");
+            if (!isFinishing()) {
+                progressDialog.show();
+            }
+            //Firebase storage
+            StorageReference uploadRef = mStorageRef.child(mAuth.getCurrentUser().getUid()+"/images/" + zActnioID);
+            uploadRef.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) { ;
+                            progressDialog.dismiss();
+                            Toast.makeText(EditActionActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            Toast.makeText(EditActionActivity.this, "Failed Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+        Intent intent = new Intent(EditActionActivity.this,Routine.class);
+        startActivity(intent);
+
+    }
+    private void SelectImage()
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(
+                Intent.createChooser(intent, "Select Image from here..."), PICK_IMAGE_REQUEST);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            filePath = data.getData();
+            try {
+
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                uploadImage.setImageBitmap(bitmap);
+                uploadImage.setBackground(null);
+                haveImage = "true";
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void ReturnToLogin(){
@@ -348,10 +424,7 @@ public class EditActionActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    public void returnToRoutine(){
-        Intent intent = new Intent(EditActionActivity.this,Routine.class);
-        startActivity(intent);
-        finish();
-    }
+
+
 
 }

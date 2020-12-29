@@ -181,137 +181,137 @@ public class AddActionActivity extends AppCompatActivity {
     }
 
     protected void displayAlertDialog(){
-            // Set up the alert builder
-            AlertDialog.Builder builder = new AlertDialog.Builder(AddActionActivity.this);
-            builder.setTitle("Choose Days");
-            // Add a checkbox list
-                    builder.setMultiChoiceItems(weekday, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                            // The user checked or unchecked a box
-                                checkedItems[which] = isChecked;
-                        }
-                    });
-            // Add OK and Cancel buttons
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // The user clicked OK
-                            int i =0;
-                            String result = "";
-                            for (boolean checked: checkedItems) {
-                                if (checked == true){
-                                    result += weekday[i] + "\n";
-                                }
-                                i++;
-                            }
-                            result = result.substring(0,result.length() - 1);
-                            inputRepeat.setText(result);
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", null);
-            // Create and show the alert dialog
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-        }
-
-        private void uploadDatabase() {
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            EditText inputName = findViewById(R.id.inputName);
-            EditText inputDescription = findViewById(R.id.inputDescription);
-            EditText inputTimes = findViewById(R.id.inputTimes);
-            EditText inputOrgans = findViewById(R.id.inputOrgans);
-            EditText inputUsage = findViewById(R.id.inputUsage);
-            EditText inputReference = findViewById(R.id.inputReference);
-            String repeat = "";
-
-            int count = 0;
-            if (TextUtils.isEmpty(inputName.getText().toString())){
-                inputName.setError(getString(R.string.cannotBeEmpty));
-                return;
+        // Set up the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddActionActivity.this);
+        builder.setTitle("Choose Days");
+        // Add a checkbox list
+        builder.setMultiChoiceItems(weekday, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                // The user checked or unchecked a box
+                checkedItems[which] = isChecked;
             }
-            if (TextUtils.isEmpty(inputDescription.getText().toString())){
-                inputDescription.setError(getString(R.string.cannotBeEmpty));
-                return;
-            }
-            if (TextUtils.isEmpty(inputTimes.getText().toString())){
-                inputTimes.setError(getString(R.string.cannotBeEmpty));
-                return;
-            }
-            if (TextUtils.isEmpty(inputOrgans.getText().toString())){
-                inputOrgans.setError(getString(R.string.cannotBeEmpty));
-                return;
-            }
-            if (TextUtils.isEmpty(inputUsage.getText().toString())){
-                inputUsage.setError(getString(R.string.cannotBeEmpty));
-                return;
-            }
-            if (TextUtils.isEmpty(inputReference.getText().toString())){
-                inputReference.setError(getString(R.string.cannotBeEmpty));
-                return;
-            }
-
-            DatabaseReference myRef = database.getReference(mAuth.getCurrentUser().getUid()).push();
-            HashMap<String, String> toUpload= new HashMap<String, String>();
-
-            toUpload.put("actionName",inputName.getText().toString());
-            toUpload.put("description",inputDescription.getText().toString());
-            toUpload.put("times",inputTimes.getText().toString());
-            toUpload.put("organs",inputOrgans.getText().toString());
-            toUpload.put("usage",inputUsage.getText().toString());
-            toUpload.put("references",inputReference.getText().toString());
-            uniqueid = myRef.getKey();
-            toUpload.put("zActionID",uniqueid);
-            toUpload.put("haveImage",haveImage);
-            toUpload.put("haveChecked","false");
-            System.out.println(inputRepeat.getText().toString());
-            for (int i = 0 ; i< checkedItems.length; i++) {
-                if (checkedItems[i] == true){
-                    repeat += weekday[i] + ",";
+        });
+        // Add OK and Cancel buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // The user clicked OK
+                int i =0;
+                String result = "";
+                for (boolean checked: checkedItems) {
+                    if (checked == true){
+                        result += weekday[i] + "\n";
+                    }
+                    i++;
                 }
+                result = result.substring(0,result.length() - 1);
+                inputRepeat.setText(result);
             }
-            if (repeat == null || repeat.equals("")){
-                inputRepeat.setError(getString(R.string.cannotBeEmpty));
-                return;
-            }
-            toUpload.put("days",repeat.substring(0,repeat.length()-1));
-            myRef.setValue(toUpload);
-            if (haveImage.equals(true)) {
-                uploadImageToDatabase();
-            }else{
-                Intent intent = new Intent(AddActionActivity.this,Routine.class);
-                startActivity(intent);
-                finish();
+        });
+        builder.setNegativeButton("Cancel", null);
+        // Create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void uploadDatabase() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        EditText inputName = findViewById(R.id.inputName);
+        EditText inputDescription = findViewById(R.id.inputDescription);
+        EditText inputTimes = findViewById(R.id.inputTimes);
+        EditText inputOrgans = findViewById(R.id.inputOrgans);
+        EditText inputUsage = findViewById(R.id.inputUsage);
+        EditText inputReference = findViewById(R.id.inputReference);
+        String repeat = "";
+
+        int count = 0;
+        if (TextUtils.isEmpty(inputName.getText().toString())){
+            inputName.setError(getString(R.string.cannotBeEmpty));
+            return;
+        }
+        if (TextUtils.isEmpty(inputDescription.getText().toString())){
+            inputDescription.setError(getString(R.string.cannotBeEmpty));
+            return;
+        }
+        if (TextUtils.isEmpty(inputTimes.getText().toString())){
+            inputTimes.setError(getString(R.string.cannotBeEmpty));
+            return;
+        }
+        if (TextUtils.isEmpty(inputOrgans.getText().toString())){
+            inputOrgans.setError(getString(R.string.cannotBeEmpty));
+            return;
+        }
+        if (TextUtils.isEmpty(inputUsage.getText().toString())){
+            inputUsage.setError(getString(R.string.cannotBeEmpty));
+            return;
+        }
+        if (TextUtils.isEmpty(inputReference.getText().toString())){
+            inputReference.setError(getString(R.string.cannotBeEmpty));
+            return;
+        }
+
+        DatabaseReference myRef = database.getReference(mAuth.getCurrentUser().getUid()).push();
+        HashMap<String, String> toUpload= new HashMap<String, String>();
+
+        toUpload.put("actionName",inputName.getText().toString());
+        toUpload.put("description",inputDescription.getText().toString());
+        toUpload.put("times",inputTimes.getText().toString());
+        toUpload.put("organs",inputOrgans.getText().toString());
+        toUpload.put("usage",inputUsage.getText().toString());
+        toUpload.put("references",inputReference.getText().toString());
+        uniqueid = myRef.getKey();
+        toUpload.put("zActionID",uniqueid);
+        toUpload.put("haveImage",haveImage);
+        toUpload.put("haveChecked","false");
+        System.out.println(inputRepeat.getText().toString());
+        for (int i = 0 ; i< checkedItems.length; i++) {
+            if (checkedItems[i] == true){
+                repeat += weekday[i] + ",";
             }
         }
-        private void uploadImageToDatabase(){
-           if (filePath !=null) {
-               // Progress Bar
-               final ProgressDialog progressDialog
-                       = new ProgressDialog(this);
-               progressDialog.setTitle("Uploading Image...");
-               progressDialog.show();
-               //Firebase storage
-               StorageReference uploadRef = mStorageRef.child(mAuth.getCurrentUser().getUid()+"/images/" + uniqueid);
-               uploadRef.putFile(filePath)
-                       .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                           @Override
-                           public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) { ;
-                               progressDialog.dismiss();
-                               Toast.makeText(AddActionActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                           }
-                       })
-                       .addOnFailureListener(new OnFailureListener() {
-                           @Override
-                           public void onFailure(@NonNull Exception exception) {
-                               Toast.makeText(AddActionActivity.this, "Failed Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                           }
-                       });
-           }
-           Intent intent = new Intent(AddActionActivity.this,Routine.class);
+        if (repeat == null || repeat.equals("")){
+            inputRepeat.setError(getString(R.string.cannotBeEmpty));
+            return;
+        }
+        toUpload.put("days",repeat.substring(0,repeat.length()-1));
+        myRef.setValue(toUpload);
+        if (haveImage.equals(true)) {
+            uploadImageToDatabase();
+        }else{
+            Intent intent = new Intent(AddActionActivity.this,Routine.class);
             startActivity(intent);
             finish();
         }
+    }
+    private void uploadImageToDatabase(){
+        if (filePath !=null) {
+            // Progress Bar
+            final ProgressDialog progressDialog
+                    = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading Image...");
+            progressDialog.show();
+            //Firebase storage
+            StorageReference uploadRef = mStorageRef.child(mAuth.getCurrentUser().getUid()+"/images/" + uniqueid);
+            uploadRef.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) { ;
+                            progressDialog.dismiss();
+                            Toast.makeText(AddActionActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            Toast.makeText(AddActionActivity.this, "Failed Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+        Intent intent = new Intent(AddActionActivity.this,Routine.class);
+        startActivity(intent);
+        finish();
+    }
     private void SelectImage()
     {
         Intent intent = new Intent();

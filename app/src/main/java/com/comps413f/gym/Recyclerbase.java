@@ -1,13 +1,16 @@
 package com.comps413f.gym;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +33,22 @@ public class Recyclerbase extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private SharedPreferences prefs;
     static final String EXTRA_DAY = "routineDay"; // extra key
+    private TextView timerTextView;
+    private AlertDialog diag = null;
+    long startTime = 0;
+    //runs without a timer by reposting this handler at the end of the runnable
+    final Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            long millis = System.currentTimeMillis() - startTime;
+            int seconds = (int) (millis / 1000);
+            int minutes = seconds / 60;
+            seconds = seconds % 60;
+            timerTextView.setText(String.format("%d:%02d", minutes, seconds));
+            timerHandler.postDelayed(this, 500);
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +90,7 @@ public class Recyclerbase extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                actionList.clear();
                 for (DataSnapshot datas : dataSnapshot.getChildren()) {
                     /*To get data with specified address
                     Action temp001 = dataSnapshot.child("-MPRsPmAx_V0KdZ2N8oz").getValue(Action.class);
@@ -83,7 +103,12 @@ public class Recyclerbase extends AppCompatActivity {
                 }
                 if (actionList.size() == 0){
                     adapter.notifyDataSetChanged();
-                    createDialog(day);
+                    timerTextView.setText("");
+
+                    diag = createDialog(day);
+                    if (!isFinishing()){
+                        diag.show();
+                    }
                 }
             }
 
@@ -92,14 +117,41 @@ public class Recyclerbase extends AppCompatActivity {
                 System.out.println("Read data failed: " + databaseError.getCode());
             }
         });
+            timerTextView = findViewById(R.id.timerTextView);
+            startTime = System.currentTimeMillis();
+            timerHandler.postDelayed(timerRunnable, 0);
+
 
     }
+
     @Override
     protected void onStart() {
         super.onStart();
         if (mAuth.getCurrentUser() == null){
             ReturnToLogin();
         }
+        timerHandler.postDelayed(timerRunnable, 0);
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        timerHandler.removeCallbacks(timerRunnable);
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if(diag != null)
+            diag.dismiss();
+            System.out.println("onStop Destroyed");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(diag != null)
+            diag.dismiss();
+        System.out.println("onDestr Destroyed");
     }
 
     @Override
@@ -114,8 +166,9 @@ public class Recyclerbase extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.item_setting:
-                System.out.println("Buton pressed");
-                return true;
+                Intent intent = new Intent(Recyclerbase.this,PreferenceActivity.class);
+                startActivity(intent);
+                break;
             case R.id.item_about:
                 ReturnToAbout();
                 return true;
@@ -137,7 +190,7 @@ public class Recyclerbase extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    public void createDialog(String day){
+    public AlertDialog createDialog(String day){
         AlertDialog.Builder builder = new AlertDialog.Builder(Recyclerbase.this);
         builder.setTitle("Empty");
         // Add a checkbox list
@@ -148,12 +201,13 @@ public class Recyclerbase extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Recyclerbase.this,Routine.class);
                 startActivity(intent);
-                finish();
             }
         });
         // Create and show the alert dialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        final AlertDialog dialog = builder.create();
+
+        return dialog;
     }
+
 
 }
