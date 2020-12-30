@@ -3,6 +3,8 @@ package com.comps413f.gym;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -24,6 +26,8 @@ import androidx.core.content.ContextCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Locale;
+
 public class Routine extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private SharedPreferences prefs;
@@ -34,8 +38,9 @@ public class Routine extends AppCompatActivity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String theme = prefs.getString(getString(R.string.pref_color),getString(R.string.pref_color_default));
+        String language = prefs.getString(getString(R.string.pref_language),getString(R.string.pref_language_default));
         System.out.println(theme);
-
+        System.out.println(language);
         if (theme.equals("Green")){
             setTheme(R.style.AppThemeGreen);
         }
@@ -46,6 +51,11 @@ public class Routine extends AppCompatActivity {
             System.out.println("Orange");
             setTheme(R.style.AppTheme);
         }
+        Configuration config = getBaseContext().getResources().getConfiguration();
+        Locale localeZH = new Locale(language);
+        Locale.setDefault(localeZH);
+        config.locale = localeZH;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
 
         setContentView(R.layout.routine);
         mAuth = FirebaseAuth.getInstance();
@@ -104,7 +114,7 @@ public class Routine extends AppCompatActivity {
         day1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doTranslate(day1);
+                doRightTranslate(day1);
             }
         });
 
@@ -112,7 +122,7 @@ public class Routine extends AppCompatActivity {
         day2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doTranslate(day2);
+                doRightTranslate(day2);
             }
         });
 
@@ -120,7 +130,7 @@ public class Routine extends AppCompatActivity {
         day3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doTranslate(day3);
+                doRightTranslate(day3);
             }
         });
 
@@ -129,7 +139,7 @@ public class Routine extends AppCompatActivity {
         day4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doTranslate(day4);
+                doRightTranslate(day4);
             }
         });
 
@@ -137,7 +147,7 @@ public class Routine extends AppCompatActivity {
         day5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    doTranslate(day5);
+                doLeftTranslate(day5);
             }
         });
 
@@ -145,7 +155,7 @@ public class Routine extends AppCompatActivity {
         day6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    doTranslate(day6);
+                doLeftTranslate(day6);
             }
         });
 
@@ -154,7 +164,7 @@ public class Routine extends AppCompatActivity {
         day7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    doTranslate(day7);
+                doLeftTranslate(day7);
             }
         });
 
@@ -205,6 +215,7 @@ public class Routine extends AppCompatActivity {
             case R.id.item_setting:
                 Intent intent = new Intent(Routine.this,PreferenceActivity.class);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.item_about:
                 ReturnToAbout();
@@ -226,37 +237,62 @@ public class Routine extends AppCompatActivity {
         finish();
     }
 
-    public boolean doTranslate(final Button button) {
+    public boolean doRightTranslate(final Button button) {
         int distance = ((View)button.getParent()).getWidth() - button.getWidth();
         Animation animation = new TranslateAnimation(0, distance, 0, 0); // TranslateAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta)
         animation.setDuration(500);
         animation.setRepeatCount(1);
         animation.setRepeatMode(Animation.REVERSE); // going backward
         button.startAnimation(animation);
-        animation.setAnimationListener(new Animation.AnimationListener() {
+        animation.setAnimationListener(new Animation.AnimationListener(){
             @Override
-            public void onAnimationStart(Animation animation) {
-
+            public void onAnimationStart(Animation arg0) {
             }
-
             @Override
-            public void onAnimationEnd(Animation animation) {
+            public void onAnimationRepeat(Animation arg0) {
+            }
+            @Override
+            public void onAnimationEnd(Animation arg0) {
                 Intent intent = new Intent(Routine.this,
                         Recyclerbase.class);
                 intent.putExtra(Recyclerbase.EXTRA_DAY,
                         button.getText().toString());
                 startActivity(intent);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
+                finish();
             }
         });
+
+        return true;
+    }
+    public boolean doLeftTranslate(final Button button) {
+        int distance = ((View)button.getParent()).getWidth() - button.getWidth();
+        Animation animation = new TranslateAnimation(0, -distance, 0, 0); // TranslateAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta)
+        animation.setDuration(500);
+        animation.setRepeatCount(1);
+        animation.setRepeatMode(Animation.REVERSE); // going backward
+        button.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener(){
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                Intent intent = new Intent(Routine.this,
+                        Recyclerbase.class);
+                intent.putExtra(Recyclerbase.EXTRA_DAY,
+                        button.getText().toString());
+                startActivity(intent);
+                finish();
+            }
+        });
+
         return true;
     }
 
-    public boolean doRotation(Button button) {
+    public boolean doRotation(final Button button) {
         float x,y ;
         x = (float)(button.getWidth()*0.5);
         y = (float)(button.getHeight()*0.5);
@@ -265,24 +301,21 @@ public class Routine extends AppCompatActivity {
         animation.setRepeatMode(Animation.REVERSE); // going backward
         animation.setDuration(500);
         button.startAnimation(animation);
-        animation.setAnimationListener(new Animation.AnimationListener() {
+        animation.setAnimationListener(new Animation.AnimationListener(){
             @Override
-            public void onAnimationStart(Animation animation) {
-
+            public void onAnimationStart(Animation arg0) {
             }
-
             @Override
-            public void onAnimationEnd(Animation animation) {
+            public void onAnimationRepeat(Animation arg0) {
+            }
+            @Override
+            public void onAnimationEnd(Animation arg0) {
                 Intent intent = new Intent(Routine.this,
                         AddActionActivity.class);
-                intent.putExtra(AddActionActivity.EXTRA_DATA,
-                        "addDay");
+                intent.putExtra(Recyclerbase.EXTRA_DAY,
+                        button.getText().toString());
                 startActivity(intent);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
+                finish();
             }
         });
         return  true;

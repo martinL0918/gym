@@ -1,9 +1,10 @@
 package com.comps413f.gym;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -39,22 +39,26 @@ public class LoginActivity extends AppCompatActivity {
     EditText confirmpassword_editText;
     Button login_button;
     private FirebaseAuth mAuth;
+    TextView backgroundField ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        mAuth = FirebaseAuth.getInstance();
+        backgroundField = findViewById(R.id.background);
+        login_button = findViewById(R.id.login_button);
         regigser_tab = findViewById(R.id.register_tab);
         login_tab = findViewById(R.id.login_tab);
+
+        mAuth = FirebaseAuth.getInstance();
+
         confirmpassword = findViewById(R.id.confirmpassword);
         confirmpassword_editText = findViewById(R.id.confirmpassword_editText);
-        login_button = findViewById(R.id.login_button);
 
         regigser_tab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 login_tab.setTextColor(ContextCompat.getColor(LoginActivity.this, R.color.colorPrimary));
-                regigser_tab.setBackground(ContextCompat.getDrawable(LoginActivity.this, R.drawable.button_fill));
+                regigser_tab.setBackground(ContextCompat.getDrawable(LoginActivity.this, R.drawable.orange_button_fill));
                 regigser_tab.setTextColor(Color.WHITE);
                 confirmpassword.setVisibility(View.VISIBLE);
                 confirmpassword_editText.setVisibility(View.VISIBLE);
@@ -74,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 login_tab.setTextColor(Color.WHITE);
                 login_button.setText(getString(R.string.login));
-                login_tab.setBackground(ContextCompat.getDrawable(LoginActivity.this, R.drawable.button_fill));
+                login_tab.setBackground(ContextCompat.getDrawable(LoginActivity.this, R.drawable.orange_button_fill));
                 regigser_tab.setBackground(ContextCompat.getDrawable(LoginActivity.this, R.drawable.button_outline));
                 regigser_tab.setTextColor(ContextCompat.getColor(LoginActivity.this, R.color.colorPrimary));
                 confirmpassword.setVisibility(View.GONE);
@@ -106,8 +110,10 @@ public class LoginActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
-        MenuItem item_logout = menu.findItem(R.id.item_logout);
-        item_logout.setVisible(false);
+        MenuItem item_setting = menu.findItem(R.id.item_logout);
+        MenuItem item_about = menu.findItem(R.id.item_setting);
+        item_about.setVisible(false);
+        item_setting.setVisible(false);
         return true;
     }
     @Override
@@ -173,7 +179,7 @@ public class LoginActivity extends AppCompatActivity {
                             toUpload.put("haveImage","false");
                             toUpload.put("days","Day 1, Day 2, Day 3, Day 4, Day 5, Day 6, Day 7");
                             myRef.setValue(toUpload);
-
+                            Login();
 
                         } else {
                             // If sign in fails, display a message to the user.

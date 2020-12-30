@@ -6,10 +6,18 @@
 
         <ListPreference
             android:key="@string/pref_color"
-            android:title="Select Color theme"
-            android:summary="Change the color theme of this application"
+            android:title="@string/pref_color"
+            android:summary="@string/pref_color_summary"
             android:entries="@array/colorTheme"
             android:entryValues="@array/colorTheme">
+        </ListPreference>
+
+        <ListPreference
+            android:key="@string/pref_language"
+            android:title="@string/pref_language"
+            android:summary="@string/pref_language_summary"
+            android:entries="@array/languageName"
+            android:entryValues="@array/languageValue">
         </ListPreference>
     </PreferenceCategory>
 

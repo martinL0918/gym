@@ -2,6 +2,7 @@ package com.comps413f.gym;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.preference.PreferenceFragment;
@@ -9,6 +10,8 @@ import android.preference.PreferenceManager;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+
+import java.util.Locale;
 
 public class PreferenceActivity extends android.preference.PreferenceActivity {
     /** Called when the activity is first created. */
@@ -18,7 +21,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
         String theme = prefs.getString(getString(R.string.pref_color),getString(R.string.pref_color_default));
-        System.out.println(theme);
+        String language = prefs.getString(getString(R.string.pref_language),getString(R.string.pref_language_default));
         if (theme.equals("Green")){
             setTheme(R.style.AppThemeGreen);
         }
@@ -29,6 +32,11 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
             System.out.println("Orange");
             setTheme(R.style.AppTheme);
         }
+        Configuration config = getBaseContext().getResources().getConfiguration();
+        Locale localeZH = new Locale(language);
+        Locale.setDefault(localeZH);
+        config.locale = localeZH;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
         addPreferencesFromResource(R.xml.preferences);
 
     }
