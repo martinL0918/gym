@@ -39,7 +39,7 @@
     <string name="aboutLabel">About</string>
     <string name="aboutContent">This app is to ......</string>
     <string name="developerLabel">Developer</string>
-    <string name="developerContent">So Ka Leung (1204542)\n\nLeung Tsz Kin(12049855)\n\nCheung Man Fai(XXXXXXXX)</string>
+    <string name="developerContent">So Ka Leong (12045426)\n\nLeung Tsz Kin(12049855)\n\nCheung Man Fai(12042240)</string>
     <string name="pref_color" translatable="false">Change color Setting</string>
     <string name="pref_color_summary">Change the color theme of this application</string>
     <string name="pref_language" translatable="false">Change language Setting</string>
