@@ -5,11 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -179,6 +181,31 @@ public class EditActionActivity extends AppCompatActivity {
                     inputReference.setText(temp.getReferences());
                     inputRepeat.setText(temp.getDays());
                     zActnioID = temp.getzActionID();
+                    haveImage = temp.getHaveImage();
+                    if (haveImage.equals("true")) {
+                        //Retreive Image from Firebase Storage
+                        //The location of firebase storage according to our own defined structure for this mini project
+                        StorageReference downloadRef = FirebaseStorage.getInstance().getReference(mAuth.getCurrentUser().getUid() + "/images/" + zActnioID);
+                        final long ONE_MEGABYTE = 1024 * 1024;
+                        downloadRef.getBytes(ONE_MEGABYTE)
+                                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                    @Override
+                                    public void onSuccess(byte[] bytes) {
+                                        Bitmap bm = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                        DisplayMetrics dm = new DisplayMetrics();
+                                        (EditActionActivity.this).getWindowManager().getDefaultDisplay().getMetrics(dm);
+                                        uploadImage.setMinimumHeight(dm.heightPixels);
+                                        uploadImage.setMinimumWidth(dm.widthPixels);
+                                        uploadImage.setBackground(null);
+                                        uploadImage.setImageBitmap(bm);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                System.out.println("Error in loading image - Use original image instead");
+                            }
+                        });
+                    }
                     List<String> dayLists = Arrays.asList(temp.getDays().split(","));
 
                     if(dayLists.contains("Day 1")){

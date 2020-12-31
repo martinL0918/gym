@@ -181,10 +181,6 @@ public class Routine extends AppCompatActivity {
 
 
 
-
-
-
-
     }
 
     @Override
@@ -258,7 +254,6 @@ public class Routine extends AppCompatActivity {
                 intent.putExtra(Recyclerbase.EXTRA_DAY,
                         button.getText().toString());
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -285,7 +280,6 @@ public class Routine extends AppCompatActivity {
                 intent.putExtra(Recyclerbase.EXTRA_DAY,
                         button.getText().toString());
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -315,7 +309,6 @@ public class Routine extends AppCompatActivity {
                 intent.putExtra(Recyclerbase.EXTRA_DAY,
                         button.getText().toString());
                 startActivity(intent);
-                finish();
             }
         });
         return  true;

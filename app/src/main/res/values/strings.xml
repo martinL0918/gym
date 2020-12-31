@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Some app</string>
+    <string name="app_name" translatable="false">Gym Dream</string>
     <string name="addPictureDesc">Please insert photo</string>
     <string name="actionName">Action Name: </string>
     <string name="actionDescription">Description: </string>

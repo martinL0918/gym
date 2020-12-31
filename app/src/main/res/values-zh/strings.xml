@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">gym</string>
     <string name="addPictureDesc">請上傳圖片</string>
     <string name="actionName">動作名稱: </string>
     <string name="actionDescription">動作描述: </string>
