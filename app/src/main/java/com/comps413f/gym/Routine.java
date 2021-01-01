@@ -109,6 +109,7 @@ public class Routine extends AppCompatActivity {
                 }
                 background.setBackground(getResources().getDrawable(R.drawable.orange_gradient));
                 break;
+                
         }
 
 
