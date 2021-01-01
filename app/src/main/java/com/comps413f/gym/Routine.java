@@ -11,8 +11,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
@@ -114,60 +117,51 @@ public class Routine extends AppCompatActivity {
         day1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doRightTranslate(day1);
+                doAdvancedAnimation(day1);
             }
         });
-
 
         day2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doRightTranslate(day2);
+                doAdvancedAnimation2(day2);
             }
         });
-
 
         day3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doRightTranslate(day3);
+                doAdvancedAnimation(day3);
             }
         });
-
-
 
         day4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doRightTranslate(day4);
+                doAdvancedAnimation2(day4);
             }
         });
-
 
         day5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doLeftTranslate(day5);
+                doAdvancedAnimation(day5);
             }
         });
-
 
         day6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doLeftTranslate(day6);
+                doAdvancedAnimation2(day6);
             }
         });
-
-
 
         day7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doLeftTranslate(day7);
+                doAdvancedAnimation(day7);
             }
         });
-
 
         final Button add = (Button)findViewById(R.id.addDayButton);
 
@@ -259,27 +253,100 @@ public class Routine extends AppCompatActivity {
 
         return true;
     }
-    public boolean doLeftTranslate(final Button button) {
+    public boolean doAdvancedAnimation(final Button button) {
+        AnimationSet animationSet = new AnimationSet(true);
+        float x = (float)(button.getWidth()*0.5);
+        float y = (float)(button.getHeight()*0.5);
         int distance = ((View)button.getParent()).getWidth() - button.getWidth();
-        Animation animation = new TranslateAnimation(0, -distance, 0, 0); // TranslateAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta)
+        Animation animation = new RotateAnimation(0, 360, x, y); // TranslateAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta)
         animation.setDuration(500);
         animation.setRepeatCount(1);
-        animation.setRepeatMode(Animation.REVERSE); // going backward
-        button.startAnimation(animation);
-        animation.setAnimationListener(new Animation.AnimationListener(){
+        animationSet.addAnimation(animation);
+
+        Animation animation2 = new ScaleAnimation(1,2,1,2,x, y);
+        animation2.setDuration(1000);
+        animation2.setRepeatMode(Animation.REVERSE);
+        animation2.setRepeatCount(1);
+        animationSet.addAnimation(animation2);
+
+        final Animation animation3 = new AlphaAnimation(1f,0.0f);
+        animation3.setDuration(500);
+        animation3.setStartOffset(1000);
+        animation3.setFillEnabled(true);
+        animation3.setFillAfter(true);
+        animation3.setFillBefore(false);
+        animationSet.addAnimation(animation3);
+
+        button.startAnimation(animationSet);
+
+        animationSet.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation arg0) {
+            public void onAnimationStart(Animation animation) {
+
             }
+
             @Override
-            public void onAnimationRepeat(Animation arg0) {
-            }
-            @Override
-            public void onAnimationEnd(Animation arg0) {
+            public void onAnimationEnd(Animation animation) {
                 Intent intent = new Intent(Routine.this,
                         Recyclerbase.class);
                 intent.putExtra(Recyclerbase.EXTRA_DAY,
                         button.getText().toString());
                 startActivity(intent);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        return true;
+    }
+    public boolean doAdvancedAnimation2(final Button button) {
+        AnimationSet animationSet = new AnimationSet(true);
+        float x = (float)(button.getWidth()*0.5);
+        float y = (float)(button.getHeight()*0.5);
+        int distance = ((View)button.getParent()).getWidth() - button.getWidth();
+        Animation animation = new RotateAnimation(0, 360, x, y); // TranslateAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta)
+        animation.setDuration(500);
+        animation.setRepeatCount(1);
+        animation.setRepeatMode(Animation.REVERSE);
+        animationSet.addAnimation(animation);
+
+        Animation animation2 = new ScaleAnimation(1,2,1,2,x, y);
+        animation2.setDuration(1000);
+        animation2.setRepeatMode(Animation.REVERSE);
+        animation2.setRepeatCount(1);
+        animationSet.addAnimation(animation2);
+
+        final Animation animation3 = new AlphaAnimation(1f,0.0f);
+        animation3.setDuration(500);
+        animation3.setStartOffset(1000);
+        animation3.setFillEnabled(true);
+        animation3.setFillAfter(true);
+        animation3.setFillBefore(false);
+        animationSet.addAnimation(animation3);
+
+        button.startAnimation(animationSet);
+
+        animationSet.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Intent intent = new Intent(Routine.this,
+                        Recyclerbase.class);
+                intent.putExtra(Recyclerbase.EXTRA_DAY,
+                        button.getText().toString());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
             }
         });
 
