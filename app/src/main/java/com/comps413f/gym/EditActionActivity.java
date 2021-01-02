@@ -404,6 +404,9 @@ public class EditActionActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) { ;
                             progressDialog.dismiss();
                             Toast.makeText(EditActionActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(EditActionActivity.this,Routine.class);
+                            startActivity(intent);
+                            finish();
 
                         }
                     })
@@ -414,8 +417,7 @@ public class EditActionActivity extends AppCompatActivity {
                         }
                     });
         }
-        Intent intent = new Intent(EditActionActivity.this,Routine.class);
-        startActivity(intent);
+
 
     }
     private void SelectImage()

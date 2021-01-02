@@ -225,7 +225,6 @@ public class Routine extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass(Routine.this,AboutActivity.class);
         startActivity(intent);
-        finish();
     }
 
     public boolean doRightTranslate(final Button button) {

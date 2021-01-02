@@ -300,7 +300,9 @@ public class AddActionActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) { ;
                             progressDialog.dismiss();
                             Toast.makeText(AddActionActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
-
+                            Intent intent = new Intent(AddActionActivity.this,Routine.class);
+                            startActivity(intent);
+                            finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -310,9 +312,7 @@ public class AddActionActivity extends AppCompatActivity {
                         }
                     });
         }
-        Intent intent = new Intent(AddActionActivity.this,Routine.class);
-        startActivity(intent);
-        finish();
+
     }
     private void SelectImage()
     {
