@@ -37,7 +37,7 @@
     <string name="routineDescription"> Your daily routine : </string>
     <string name="cannotBeEmpty">Cannot be empty</string>
     <string name="aboutLabel">About</string>
-    <string name="aboutContent">This app is to ......</string>
+    <string name="aboutContent" translatable="false">The aim of this application is to provide a convenient tool for them to do fitness.</string>
     <string name="developerLabel">Developer</string>
     <string name="developerContent">So Ka Leong (12045426)\n\nLeung Tsz Kin(12049855)\n\nCheung Man Fai(12042240)</string>
     <string name="pref_color" translatable="false">Change color Setting</string>

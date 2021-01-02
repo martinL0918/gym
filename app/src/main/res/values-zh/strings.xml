@@ -14,7 +14,7 @@
     <string name="login">登入 </string>
     <string name="register">註冊 </string>
     <string name="password_label">密碼 </string>
-    <string name="confirm_password_label">Confirm Password </string>
+    <string name="confirm_password_label">確定密碼 </string>
     <string name="login_label">電郵 </string>
     <string name="email_hint">abc@example.com </string>
     <string name="empty_email">電郵欄位為空</string>

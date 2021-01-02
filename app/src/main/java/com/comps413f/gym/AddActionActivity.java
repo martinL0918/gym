@@ -51,7 +51,7 @@ public class AddActionActivity extends AppCompatActivity {
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 22;
     private StorageReference mStorageRef;
-    private String uniqueid = "";
+    private String uniqueid;
     private String haveImage = "false";
 
 
@@ -276,7 +276,7 @@ public class AddActionActivity extends AppCompatActivity {
         }
         toUpload.put("days",repeat.substring(0,repeat.length()-1));
         myRef.setValue(toUpload);
-        if (haveImage.equals(true)) {
+        if (haveImage.equals("true")) {
             uploadImageToDatabase();
         }else{
             Intent intent = new Intent(AddActionActivity.this,Routine.class);
@@ -287,10 +287,11 @@ public class AddActionActivity extends AppCompatActivity {
     private void uploadImageToDatabase(){
         if (filePath !=null) {
             // Progress Bar
-            final ProgressDialog progressDialog
-                    = new ProgressDialog(this);
+            final ProgressDialog progressDialog = new ProgressDialog(AddActionActivity.this);
             progressDialog.setTitle("Uploading Image...");
-            progressDialog.show();
+            if (!isFinishing()) {
+                progressDialog.show();
+            }
             //Firebase storage
             StorageReference uploadRef = mStorageRef.child(mAuth.getCurrentUser().getUid()+"/images/" + uniqueid);
             uploadRef.putFile(filePath)
@@ -299,6 +300,7 @@ public class AddActionActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) { ;
                             progressDialog.dismiss();
                             Toast.makeText(AddActionActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
