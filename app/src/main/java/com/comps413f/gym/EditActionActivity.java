@@ -381,10 +381,11 @@ public class EditActionActivity extends AppCompatActivity {
         myRef.setValue(toUpload);
 
         if (haveImage.equals("true")) {
-            uploadImageToDatabase();
+                uploadImageToDatabase();
         }else{
             Intent intent = new Intent(EditActionActivity.this,Routine.class);
             startActivity(intent);
+            finish();
         }
 
     }
@@ -417,6 +418,11 @@ public class EditActionActivity extends AppCompatActivity {
                         }
                     });
         }
+        else{
+                    Intent intent = new Intent(EditActionActivity.this,Routine.class);
+                    startActivity(intent);
+                    finish();
+                }
 
 
     }
