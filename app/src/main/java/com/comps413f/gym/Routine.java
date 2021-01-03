@@ -272,11 +272,11 @@ public class Routine extends AppCompatActivity {
         final Animation animation3 = new AlphaAnimation(1f,0.0f);
         animation3.setDuration(500);
         animation3.setStartOffset(1000);
-        animation3.setFillEnabled(true);
-        animation3.setFillAfter(true);
-        animation3.setFillBefore(false);
-        animationSet.addAnimation(animation3);
 
+        animationSet.addAnimation(animation3);
+        animationSet.setFillEnabled(true);
+        animationSet.setFillAfter(true);
+        animationSet.setFillBefore(false);
         button.startAnimation(animationSet);
 
         animationSet.setAnimationListener(new Animation.AnimationListener() {
