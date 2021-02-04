@@ -19,6 +19,7 @@ import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -118,7 +119,7 @@ public class Routine extends AppCompatActivity {
         day1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doAdvancedAnimation(day1);
+                doTranslate(day1);
             }
         });
 
@@ -253,6 +254,15 @@ public class Routine extends AppCompatActivity {
 
         return true;
     }
+    private void doTranslate(Button button) {
+        int distance = ((View)button.getParent()).getWidth() - button.getWidth();
+        Animation animation = new TranslateAnimation(0, distance, 0, 0);
+        animation.setDuration(1000);
+        animation.setRepeatCount(1);
+        animation.setRepeatMode(Animation.REVERSE);
+        button.startAnimation(animation);
+    }
+
     public boolean doAdvancedAnimation(final Button button) {
         AnimationSet animationSet = new AnimationSet(true);
         float x = (float)(button.getWidth()*0.5);
@@ -345,6 +355,24 @@ public class Routine extends AppCompatActivity {
         });
 
         return true;
+    }
+    public void doAnimation(ImageView imageView) {
+        AnimationSet animationSet = new AnimationSet(true);
+
+        Animation animation = new RotateAnimation(0, 360, 1, 1); // TranslateAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta)
+        animation.setDuration(3000);
+        animation.setRepeatCount(1);
+        animation.setRepeatMode(Animation.REVERSE);
+        animationSet.addAnimation(animation);
+
+        Animation animation2 = new AlphaAnimation(0.0f,1f);
+        animation2.setDuration(3000);
+        animation2.setRepeatCount(1);
+        animation2.setRepeatMode(Animation.REVERSE);
+        animationSet.addAnimation(animation2);
+
+        imageView.startAnimation(animationSet);
+
     }
 
     public boolean doRotation(final Button button) {
